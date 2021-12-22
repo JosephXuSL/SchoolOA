@@ -67,11 +67,12 @@ namespace SchoolOA
         }        
 
         protected void AddSchoolContext(IServiceCollection services)
-        {            
-            services.AddDbContext<SchoolContext>(options => {
-               
-                options.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole(); })).UseSqlServer("Data Source = (localdb)\\ProjectsV13; Initial Catalog = SchoolOA; Integrated Security = True; Connect Timeout = 30; MultipleActiveResultSets = true;");
-            });
+        {
+            services.AddDbContext<SchoolContext>(options =>
+                {
+                    options.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole(); }))
+                    .UseSqlServer("Data Source = (localdb)\\ProjectsV13; Initial Catalog = SchoolOA; Integrated Security = True; Connect Timeout = 30; MultipleActiveResultSets = true;");
+                });
         }
 
         protected void RegisterServices(IServiceCollection services)

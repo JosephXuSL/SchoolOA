@@ -30,17 +30,26 @@ namespace SchoolOA.Controllers
             _pic = pic;
             _mapper = mapper;
         }
-
-
+       
         #region Course
         [HttpPost]
         [ProducesResponseType(200)]
-        public IActionResult AddCourses([FromBody] IEnumerable<Course> courses)
+        public IActionResult AddCourses([FromBody] IEnumerable<CourseRequestBody> request)
         {
-            try {
-                if (_rep.AddCourses(courses)) {
-                    return Created("Saved success", courses);
+            try 
+            {                
+                if (ModelState.IsValid)
+                {
+                    var courses = _mapper.Map<IEnumerable<Course>>(request);
+                    if (_rep.AddCourses(courses))
+                    {
+                        return Created("Saved success", courses);
+                    }
                 }
+                else
+                {
+                    return BadRequest(ModelState);
+                }                
             }
             catch (Exception ex)
             {
@@ -68,14 +77,22 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
-        public IActionResult UpdateCourses([FromBody] IEnumerable<Course> courses)
+        public IActionResult UpdateCourses([FromBody] IEnumerable<CourseRequestBody> courses)
         {
             try
             {
-                if (_rep.UpdateCourses(courses))
+                if (ModelState.IsValid)
                 {
-                    return Ok("Saved success");
+                    if (_rep.UpdateCourses(_mapper.Map<IEnumerable<Course>>(courses)))
+                    {
+                        return Ok("Saved success");
+                    }
                 }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+                
             }
             catch (Exception ex)
             {
@@ -85,13 +102,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Course>), 200)]
         public IActionResult GetAllCourses()
         {
             try
             {
                 var result = _rep.GetAllCourses();
-                if (result != null)
+                if (result.Count()>0)
                 {
                     return Ok(result);
                 }
@@ -108,13 +125,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Course>),200)]
         public IActionResult GetCoursesByIds([FromBody] IEnumerable<int> idList)
         {
             try
             {
                 var result = _rep.GetCourseByIds(idList);
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -135,14 +152,23 @@ namespace SchoolOA.Controllers
         #region Teacher
         [HttpPost]
         [ProducesResponseType(200)]
-        public IActionResult AddTeachers([FromBody] IEnumerable<Teacher> teachers)
+        public IActionResult AddTeachers([FromBody] IEnumerable<TeacherRequestBody> request)
         {
             try
-            {
-                if (_rep.AddTeachers(teachers))
+            {                
+                if (ModelState.IsValid)
                 {
-                    return Created("Saved success", teachers);
+                    var teachers = _mapper.Map<IEnumerable<Teacher>>(request);
+                    if (_rep.AddTeachers(teachers))
+                    {
+                        return Created("Saved success", teachers);
+                    }
                 }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+                
             }
             catch (Exception ex)
             {
@@ -171,14 +197,22 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
-        public IActionResult UpdateTeachers([FromBody] IEnumerable<Teacher> teachers)
+        public IActionResult UpdateTeachers([FromBody] IEnumerable<TeacherRequestBody> teachers)
         {
             try
             {
-                if (_rep.UpdateTeachers(teachers))
+                if (ModelState.IsValid)
                 {
-                    return Ok("Saved success");
+                    if (_rep.UpdateTeachers(_mapper.Map<IEnumerable<Teacher>>(teachers)))
+                    {
+                        return Ok("Saved success");
+                    }
                 }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+               
             }
             catch (Exception ex)
             {
@@ -188,13 +222,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Teacher>), 200)]
         public IActionResult GetAllTeachers()
         {
             try
             {
                 var result = _rep.GetAllTeachers();
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -212,7 +246,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet("{Name:}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Teacher>), 200)]
         public IActionResult FindTeachersByName(string name)
         {
             try
@@ -236,13 +270,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Teacher>), 200)]
         public IActionResult GetTeacherByIds([FromBody] IEnumerable<int> idList)
         {
             try
             {
                 var result = _rep.GetTeacherByIds(idList);
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -263,14 +297,23 @@ namespace SchoolOA.Controllers
         #region Major
         [HttpPost]
         [ProducesResponseType(200)]
-        public IActionResult AddMajors([FromBody] IEnumerable<Major> majors)
+        public IActionResult AddMajors([FromBody] IEnumerable<MajorRequestBody> request)
         {
             try
-            {
-                if (_rep.AddMajors(majors))
+            {                
+                if (ModelState.IsValid)
                 {
-                    return Created("Saved success", majors);
+                    var majors = _mapper.Map<IEnumerable<Major>>(request);
+                    if (_rep.AddMajors(majors))
+                    {
+                        return Created("Saved success", majors);
+                    }
                 }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+                
             }
             catch (Exception ex)
             {
@@ -299,14 +342,22 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
-        public IActionResult UpdateMajors([FromBody] IEnumerable<Major> majors)
+        public IActionResult UpdateMajors([FromBody] IEnumerable<MajorRequestBody> majors)
         {
             try
             {
-                if (_rep.UpdateMajors(majors))
+                if (ModelState.IsValid)
                 {
-                    return Ok("Saved success");
+                    if (_rep.UpdateMajors(_mapper.Map<IEnumerable<Major>>(majors)))
+                    {
+                        return Ok("Saved success");
+                    }
                 }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+                
             }
             catch (Exception ex)
             {
@@ -316,13 +367,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Major>), 200)]
         public IActionResult GetAllMajors()
         {
             try
             {
                 var result = _rep.GetAllMajors();
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -340,7 +391,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet("{grade:}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<string>), 200)]
         public IActionResult GetDepartmentByGrade(string grade)
         {
             try
@@ -364,7 +415,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<string>), 200)]
         public IActionResult GetMajorNameByGradeAndDepartment(string grade, string department)
         {
             try
@@ -388,13 +439,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Major>), 200)]
         public IActionResult GetMajors([FromBody] GetMajorRequestBody request)
         {
             try
             {
                 var result = _rep.GetMajors(request);
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -412,13 +463,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Major>), 200)]
         public IActionResult GetMajorByIds([FromBody] IEnumerable<int> idList)
         {
             try
             {
                 var result = _rep.GetMajorByIds(idList);
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -442,10 +493,10 @@ namespace SchoolOA.Controllers
         public IActionResult AddTeacherReceivedAward([FromBody] IEnumerable<TeacherReceivedAwardRequestBody> request)
         {
             try
-            {
-                var awards = _mapper.Map<IEnumerable<TeacherReceivedAward>>(request);
+            {                
                 if (ModelState.IsValid)
                 {
+                    var awards = _mapper.Map<IEnumerable<TeacherReceivedAward>>(request);
                     if (_rep.AddTeacherReceivedAward(awards))
                     {
                         return Created("Saved success", awards);
@@ -507,13 +558,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<TeacherReceivedAward>), 200)]
         public IActionResult GetAllTeacherReceivedAward()
         {
             try
             {
                 var result = _rep.GetAllTeacherReceivedAward();
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -531,13 +582,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet("{id:}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<TeacherReceivedAward>), 200)]
         public IActionResult GetTeacherReceivedAwardByTeacherId(int id)
         {
             try
             {
                 var result = _rep.GetTeacherReceivedAwardByTeacherId(id);
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -561,10 +612,10 @@ namespace SchoolOA.Controllers
         public IActionResult AddTeacherAccounts([FromBody] IEnumerable<TeacherAccountRequestBody> request)
         {
             try
-            {
-                var accounts = _mapper.Map<IEnumerable<TeacherAccount>>(request);
+            {                
                 if (ModelState.IsValid)
                 {
+                    var accounts = _mapper.Map<IEnumerable<TeacherAccount>>(request);
                     if (_rep.AddTeacherAccounts(accounts))
                     {
                         return Created("Saved success", accounts);
@@ -626,13 +677,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<TeacherAccount>), 200)]
         public IActionResult GetAllTeacherAccounts()
         {
             try
             {
                 var result = _rep.GetAllTeacherAccounts();
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -650,7 +701,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet("{id:}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(TeacherAccount), 200)]
         public IActionResult GetTeacherAccountByTeacherId(int id)
         {
             try
@@ -680,10 +731,10 @@ namespace SchoolOA.Controllers
         public IActionResult AddClasses([FromBody] IEnumerable<ClassRequestBody> request)
         {
             try
-            {
-                var classes = _mapper.Map<IEnumerable<Class>>(request);
+            {                
                 if (ModelState.IsValid)
                 {
+                    var classes = _mapper.Map<IEnumerable<Class>>(request);
                     if (_rep.AddClasses(classes))
                     {
                         return Created("Saved success", classes);
@@ -745,13 +796,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Class>), 200)]
         public IActionResult GetAllClasses()
         {
             try
             {
                 var result = _rep.GetAllClasses();
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -769,13 +820,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Class>), 200)]
         public IActionResult GetClassesByIds([FromBody] IEnumerable<int> idList)
         {
             try
             {
                 var result = _rep.GetClassesByIds(idList);
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -793,13 +844,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Class>), 200)]
         public IActionResult GetClassesByMajorIds([FromBody] IEnumerable<int> idList)
         {
             try
             {
                 var result = _rep.GetClassesByMajorIds(idList);
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -817,13 +868,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet("{id:}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Class>), 200)]
         public IActionResult GetClassesByMentorId(int id)
         {
             try
             {
                 var result = _rep.GetClassesByMentorId(id);
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -847,10 +898,19 @@ namespace SchoolOA.Controllers
         public IActionResult AddStudents([FromBody] IEnumerable<StudentRequestBody> request)
         {
             try
-            {
-                var students = _mapper.Map<IEnumerable<Student>>(request);
+            {                
                 if (ModelState.IsValid)
                 {
+                    foreach (var student in request)
+                    {
+                        if (student.Portrait != null)
+                        {
+                            student.Portrait = _pic.SavePhoto(student.Portrait, student.Name, student.IdentityCardNumber);
+                        }
+                    }
+
+                    var students = _mapper.Map<IEnumerable<Student>>(request);
+                    
                     if (_rep.AddStudents(students))
                     {
                         return Created("Saved success", students);
@@ -894,6 +954,13 @@ namespace SchoolOA.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    foreach (var student in students)
+                    {
+                        if (student.Portrait != null)
+                        {
+                            student.Portrait = _pic.SavePhoto(student.Portrait, student.Name, student.IdentityCardNumber);
+                        }
+                    }
                     if (_rep.UpdateStudents(_mapper.Map<IEnumerable<Student>>(students)))
                     {
                         return Ok("Saved success");
@@ -912,14 +979,21 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Student>), 200)]
         public IActionResult GetAllStudents()
         {
             try
             {
                 var result = _rep.GetAllStudents();
-                if (result != null)
+                if (result.Count() > 0)
                 {
+                    foreach (var student in result)
+                    {
+                        if (student.Portrait != null)
+                        {
+                            student.Portrait = _pic.GetPhoto(student.Portrait);
+                        }
+                    }
                     return Ok(result);
                 }
                 else
@@ -936,7 +1010,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet("{name:}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Student>), 200)]
         public IActionResult GetStudentsByName(string name)
         {
             try
@@ -944,6 +1018,13 @@ namespace SchoolOA.Controllers
                 var result = _rep.GetStudentsByName(name);
                 if (result.Count()>0)
                 {
+                    foreach (var student in result)
+                    {
+                        if (student.Portrait != null)
+                        {
+                            student.Portrait = _pic.GetPhoto(student.Portrait);
+                        }
+                    }
                     return Ok(result);
                 }
                 else
@@ -956,11 +1037,37 @@ namespace SchoolOA.Controllers
                 _logger.LogError($"Failed due to : {ex}");
                 return BadRequest("Some error makes request failed");
             }
+        }
 
+        [HttpGet("{number:}")]
+        [ProducesResponseType(typeof(Student), 200)]
+        public IActionResult GetStudentByIDCardNumber(string number)
+        {
+            try
+            {
+                var result = _rep.GetStudentByIDCardNumber(number);
+                if (result != null)
+                {                    
+                    if (result.Portrait != null)
+                    {
+                        result.Portrait = _pic.GetPhoto(result.Portrait);
+                    }                    
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound("No Items Found");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Student>), 200)]
         public IActionResult GetStudentsByClassInfo([FromBody] ClassInfoRequestBody rquest)
         {
             try
@@ -968,6 +1075,13 @@ namespace SchoolOA.Controllers
                 var result = _rep.GetStudentsByClassInfo(rquest);
                 if (result.Count() > 0)
                 {
+                    foreach (var student in result)
+                    {
+                        if (student.Portrait != null)
+                        {
+                            student.Portrait = _pic.GetPhoto(student.Portrait);
+                        }
+                    }
                     return Ok(result);
                 }
                 else
@@ -991,10 +1105,17 @@ namespace SchoolOA.Controllers
         public IActionResult AddEnroll([FromBody] IEnumerable<EnrollRequestBody> request)
         {
             try
-            {
-                var students = _mapper.Map<IEnumerable<Enroll>>(request);
+            {                
                 if (ModelState.IsValid)
                 {
+                    foreach (var student in request)
+                    {
+                        if (student.Portrait != null)
+                        {
+                            student.Portrait = _pic.SavePhoto(student.Portrait, student.Name, student.IdentityCardNumber);
+                        }
+                    }
+                    var students = _mapper.Map<IEnumerable<Enroll>>(request);
                     if (_rep.AddEnroll(students))
                     {
                         return Created("Saved success", students);
@@ -1039,6 +1160,14 @@ namespace SchoolOA.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    foreach (var student in students)
+                    {
+                        if (student.Portrait != null)
+                        {
+                            student.Portrait = _pic.SavePhoto(student.Portrait, student.Name, student.IdentityCardNumber);
+                        }
+                    }
+
                     if (_rep.UpdateEnroll(_mapper.Map<IEnumerable<Enroll>>(students)))
                     {
                         return Ok("Saved success");
@@ -1057,14 +1186,21 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Enroll>), 200)]
         public IActionResult GetAllEnroll()
         {
             try
             {
                 var result = _rep.GetAllEnroll();
-                if (result != null)
+                if (result.Count() >0)
                 {
+                    foreach (var student in result)
+                    {
+                        if (student.Portrait != null)
+                        {
+                            student.Portrait = _pic.GetPhoto(student.Portrait);
+                        }
+                    }
                     return Ok(result);
                 }
                 else
@@ -1080,19 +1216,53 @@ namespace SchoolOA.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Enroll>), 200)]
         public IActionResult GetEnrollByMajor([FromBody] GetMajorRequestBody request)
         {
             try
             {
                 var result = _rep.GetEnrollByMajor(request);
-                if (result != null)
+                if (result.Count()>0)
                 {
+                    foreach (var student in result)
+                    {
+                        if (student.Portrait != null)
+                        {
+                            student.Portrait = _pic.GetPhoto(student.Portrait);
+                        }
+                    }
                     return Ok(result);
                 }
                 else
                 {
                     return NotFound("No items found");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+        }
+
+        [HttpGet("{number:}")]
+        [ProducesResponseType(typeof(Student), 200)]
+        public IActionResult GetEnrollByIDCardNumber(string number)
+        {
+            try
+            {
+                var result = _rep.GetEnrollByIDCardNumber(number);
+                if (result != null)
+                {
+                    if (result.Portrait != null)
+                    {
+                        result.Portrait = _pic.GetPhoto(result.Portrait);
+                    }
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound("No Items Found");
                 }
             }
             catch (Exception ex)
@@ -1109,10 +1279,10 @@ namespace SchoolOA.Controllers
         public IActionResult AddCourseResponsibleByTeacher([FromBody] IEnumerable<CourseResponsibleByTeacherRequestBody> request)
         {
             try
-            {
-                var information = _mapper.Map<IEnumerable<CourseResponsibleByTeacher>>(request);
+            {                
                 if (ModelState.IsValid)
                 {
+                    var information = _mapper.Map<IEnumerable<CourseResponsibleByTeacher>>(request);
                     if (_rep.AddCourseResponsibleByTeacher(information))
                     {
                         return Created("Saved success", information);
@@ -1176,13 +1346,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<CourseResponsibleByTeacher>), 200)]
         public IActionResult GetAllCourseResponsibleByTeacher()
         {
             try
             {
                 var result = _rep.GetAllCourseResponsibleByTeacher();
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -1199,7 +1369,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet("{id:}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<CourseResponsibleByTeacher>), 200)]
         public IActionResult GetCourseAndClassByTeacherId(int id)
         {
             try
@@ -1229,10 +1399,10 @@ namespace SchoolOA.Controllers
         public IActionResult AddCourseSchedule([FromBody] IEnumerable<CourseScheduleRequestBody> request)
         {
             try
-            {
-                var information = _mapper.Map<IEnumerable<CourseSchedule>>(request);
+            {                
                 if (ModelState.IsValid)
                 {
+                    var information = _mapper.Map<IEnumerable<CourseSchedule>>(request);
                     if (_rep.AddCourseSchedule(information))
                     {
                         return Created("Saved success", information);
@@ -1295,13 +1465,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<CourseSchedule>), 200)]
         public IActionResult GetAllCourseSchedule()
         {
             try
             {
                 var result = _rep.GetAllCourseSchedule();
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -1318,13 +1488,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet("{teacherId:}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<CourseSchedule>), 200)]
         public IActionResult GetCourseScheduleByTeacherId(int teacherId)
         {
             try
             {
                 var result = _rep.GetCourseScheduleByTeacherId(teacherId);
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -1341,13 +1511,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet("{classId:}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<CourseSchedule>), 200)]
         public IActionResult GetCourseScheduleByClassId(int classId)
         {
             try
             {
                 var result = _rep.GetCourseScheduleByClassId(classId);
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -1370,10 +1540,10 @@ namespace SchoolOA.Controllers
         public IActionResult AddCourseSelection([FromBody] IEnumerable<CourseSelectionRequestBody> request)
         {
             try
-            {
-                var information = _mapper.Map<IEnumerable<CourseSelection>>(request);
+            {                
                 if (ModelState.IsValid)
                 {
+                    var information = _mapper.Map<IEnumerable<CourseSelection>>(request);
                     if (_rep.AddCourseSelection(information))
                     {
                         return Created("Saved success", information);
@@ -1436,13 +1606,13 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<CourseSelection>), 200)]
         public IActionResult GetAllCourseSelection()
         {
             try
             {
                 var result = _rep.GetAllCourseSelection();
-                if (result != null)
+                if (result.Count() > 0)
                 {
                     return Ok(result);
                 }
@@ -1459,7 +1629,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet("{studnetId:}")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<CourseSelection>), 200)]
         public IActionResult GetCourseSelectionByStudentId(int studnetId)
         {
             try
@@ -1488,10 +1658,10 @@ namespace SchoolOA.Controllers
         public IActionResult AddExaminations([FromBody] IEnumerable<ExaminationRequestBody> request)
         {
             try
-            {
-                var exams = _mapper.Map<IEnumerable<Examination>>(request);
+            {                
                 if (ModelState.IsValid)
                 {
+                    var exams = _mapper.Map<IEnumerable<Examination>>(request);
                     if (_rep.AddExaminations(exams))
                     {
                         return Created("Saved success", exams);
@@ -1553,7 +1723,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Examination>), 200)]
         public IActionResult GetAllExaminations()
         {
             try
@@ -1576,7 +1746,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IEnumerable<Examination>), 200)]
         public IActionResult GetExaminationsByStudentIds(IEnumerable<int> idList)
         {
             try

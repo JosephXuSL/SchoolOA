@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SchoolOA.Entities
 {
-    public class TeacherDto
+    public class TeacherRequestBody
     {
         [Required]
         public int Id { get; set; }

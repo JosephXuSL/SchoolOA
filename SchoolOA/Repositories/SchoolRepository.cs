@@ -93,9 +93,9 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<Major> GetMajors(GetMajorRequestBody request)
         {            
-            return this._context.Majors.Where(m => m.Grade == null ? true : m.Grade == request.Grade 
-            && m.Department == null ? true : m.Department == request.Department 
-            && m.MajorName == null ? true : m.MajorName==request.MajorName).ToList();
+            return this._context.Majors.Where(m => request.Grade == null ? true : m.Grade == request.Grade 
+            && request.Department == null ? true : m.Department == request.Department 
+            && request.MajorName == null ? true : m.MajorName ==request.MajorName).ToList();
         }
 
         public IEnumerable<Major> GetMajorByIds(IEnumerable<int> idList)
@@ -296,6 +296,11 @@ namespace SchoolOA.Repositories
             return this._context.Students.Where(s=>s.Name== name).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
         }
 
+        public Student GetStudentByIDCardNumber(string id)
+        {
+            return this._context.Students.Where(s => s.IdentityCardNumber == id).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).FirstOrDefault();
+        }
+
         public IEnumerable<Student> GetStudentsByClassInfo(ClassInfoRequestBody request)
         {
             var classes = GetClassesByClassInfo(request);
@@ -333,7 +338,12 @@ namespace SchoolOA.Repositories
             var majors = GetMajors(request);
             return this._context.Enroll.Include(t => t.Major).Where(e=> majors.Contains(e.Major)).ToList();
         }
-        
+
+        public Enroll GetEnrollByIDCardNumber(string id)
+        {
+            return this._context.Enroll.Where(e => e.IdentityCardNumber == id).Include(t => t.Major).FirstOrDefault();
+        }
+
         #endregion Enroll
 
         #region CourseResponsibleByTeacher

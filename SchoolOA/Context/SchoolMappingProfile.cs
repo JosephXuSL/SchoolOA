@@ -12,6 +12,9 @@ namespace SchoolOA.Context
     {
         public SchoolMappingProfile()
         {
+            CreateMap<CourseRequestBody, Course>().ReverseMap();
+            CreateMap<TeacherRequestBody, Teacher>().ReverseMap();
+            CreateMap<MajorRequestBody, Major>().ReverseMap();
             CreateMap<TeacherReceivedAwardRequestBody, TeacherReceivedAward>().ReverseMap();
             //.ForMember(x=>x.Id, ex=>ex.MapFrom(x=>x.Id));
             CreateMap<TeacherAccountRequestBody, TeacherAccount>().ReverseMap();
@@ -22,6 +25,7 @@ namespace SchoolOA.Context
             CreateMap<CourseScheduleRequestBody, CourseSchedule>().ReverseMap();
             CreateMap<CourseSelectionRequestBody, CourseSelection>().ReverseMap();
             CreateMap<ExaminationRequestBody, Examination>().ReverseMap();
+            
         }
     }
 }
