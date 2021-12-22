@@ -14,7 +14,7 @@ namespace SchoolOA.Context.Mappings
             builder.Property(p => p.Id).HasColumnType("int").HasColumnName("Id").ValueGeneratedOnAdd();
             builder.Property(p => p.StudentId).HasColumnType("int").IsRequired(true).HasColumnName("StudentId");
             builder.HasOne(p => p.Student).WithMany().HasForeignKey(e => e.StudentId).OnDelete(DeleteBehavior.ClientSetNull);
-            builder.Property(p => p.CourseResponsibleByTeacherId).HasColumnType("int").IsRequired(true).HasColumnName("CourseId");
+            builder.Property(p => p.CourseResponsibleByTeacherId).HasColumnType("int").IsRequired(true).HasColumnName("CourseResponsibleByTeacherId");
             builder.HasOne(p => p.TeacherCourseInfo).WithMany().HasForeignKey(e => e.CourseResponsibleByTeacherId).OnDelete(DeleteBehavior.ClientSetNull);           
         }
     }
