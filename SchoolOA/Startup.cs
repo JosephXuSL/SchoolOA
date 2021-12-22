@@ -71,7 +71,7 @@ namespace SchoolOA
             services.AddDbContext<SchoolContext>(options =>
                 {
                     options.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole(); }))
-                    .UseSqlServer("Data Source = (localdb)\\ProjectsV13; Initial Catalog = SchoolOA; Integrated Security = True; Connect Timeout = 30; MultipleActiveResultSets = true;");
+                    .UseSqlServer(Configuration.GetConnectionString("ShoolDB"));                    
                 });
         }
 

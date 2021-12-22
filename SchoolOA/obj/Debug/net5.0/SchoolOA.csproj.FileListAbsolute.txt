@@ -67,3 +67,4 @@ C:\Users\shaolin.a.xu\Desktop\School\SchoolOA\SchoolOA\bin\Debug\net5.0\runtimes
 C:\Users\shaolin.a.xu\Desktop\School\SchoolOA\SchoolOA\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\shaolin.a.xu\Desktop\School\SchoolOA\SchoolOA\bin\Debug\net5.0\AutoMapper.dll
 C:\Users\shaolin.a.xu\Desktop\School\SchoolOA\SchoolOA\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\shaolin.a.xu\Desktop\School\SchoolOA\SchoolOA\bin\Debug\net5.0\config.json
