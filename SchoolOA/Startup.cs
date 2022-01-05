@@ -34,6 +34,17 @@ namespace SchoolOA
         {          
             AddSchoolContext(services);
             RegisterServices(services);
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllRequests", policy =>
+                {
+                    policy
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+
+                });
+            });
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddControllers()
                 .AddNewtonsoftJson(cfg=>cfg.SerializerSettings.ReferenceLoopHandling= ReferenceLoopHandling.Ignore);
@@ -58,6 +69,7 @@ namespace SchoolOA
 
             app.UseRouting();
 
+            app.UseCors("AllRequests");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

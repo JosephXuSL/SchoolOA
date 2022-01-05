@@ -86,16 +86,16 @@ namespace SchoolOA.Repositories
         public IEnumerable<string> GetMajorNameByGradeAndDepartment(string grade, string department)
         {
             var MajorName = new List<string>();
-            this._context.Majors.Where(m => grade== null? true : m.Grade== grade && department == null ? true : m.Department== department)
+            this._context.Majors.Where(m => (grade== null? true : m.Grade== grade) && (department == null ? true : m.Department== department))
                 .ToList().ForEach(m => { if (!MajorName.Contains(m.MajorName)) { MajorName.Add(m.MajorName); } });
             return MajorName;
         }
 
         public IEnumerable<Major> GetMajors(GetMajorRequestBody request)
         {            
-            return this._context.Majors.Where(m => request.Grade == null ? true : m.Grade == request.Grade 
-            && request.Department == null ? true : m.Department == request.Department 
-            && request.MajorName == null ? true : m.MajorName ==request.MajorName).ToList();
+            return this._context.Majors.Where(m => (request.Grade == null ? true : m.Grade == request.Grade)
+            && (request.Department == null ? true : m.Department == request.Department) 
+            && (request.MajorName == null ? true : m.MajorName ==request.MajorName)).ToList();
         }
 
         public IEnumerable<Major> GetMajorByIds(IEnumerable<int> idList)
@@ -259,10 +259,10 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<Class> GetClassesByClassInfo(ClassInfoRequestBody p)
         {
-            return this._context.Classes.Where(x => p.Department==null? true: p.Department==x.Major.Department 
-            && p.Grade == null ? true : p.Grade == x.Major.Grade
-            && p.MajorName == null ? true : p.MajorName == x.Major.MajorName
-            && p.ClassNumber == null ? true : p.ClassNumber == x.ClassNumber).ToList();
+            return this._context.Classes.Where(x => (p.Department==null? true: p.Department==x.Major.Department) 
+            && (p.Grade == null ? true : p.Grade == x.Major.Grade)
+            && (p.MajorName == null ? true : p.MajorName == x.Major.MajorName)
+            && (p.ClassNumber == null ? true : p.ClassNumber == x.ClassNumber)).Include(c => c.Major).Include(c => c.Mentor).ToList();
         }
         #endregion Class
 
@@ -306,6 +306,11 @@ namespace SchoolOA.Repositories
             var classes = GetClassesByClassInfo(request);
             
             return this._context.Students.Where(s => classes.Contains(s.Class)).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
+        }
+
+        public IEnumerable<Student> GetStudentsByIds(IEnumerable<int> idList)
+        {
+            return this._context.Students.Where(s => idList.Contains(s.Id)).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
         }
         #endregion Student
 

@@ -43,7 +43,7 @@ namespace SchoolOA.Controllers
                     var courses = _mapper.Map<IEnumerable<Course>>(request);
                     if (_rep.AddCourses(courses))
                     {
-                        return Created("Saved success", courses);
+                        return Ok(courses);
                     }
                 }
                 else
@@ -108,13 +108,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetAllCourses();
-                if (result.Count()>0)
-                {
-                    return Ok(result);
-                }
-                else {
-                    return NotFound("Table is empty");
-                }
+                return Ok(result);                
             }
             catch (Exception ex)
             {
@@ -131,14 +125,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetCourseByIds(idList);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No items found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -161,7 +148,7 @@ namespace SchoolOA.Controllers
                     var teachers = _mapper.Map<IEnumerable<Teacher>>(request);
                     if (_rep.AddTeachers(teachers))
                     {
-                        return Created("Saved success", teachers);
+                        return Ok(teachers);
                     }
                 }
                 else
@@ -227,15 +214,7 @@ namespace SchoolOA.Controllers
         {
             try
             {
-                var result = _rep.GetAllTeachers();
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+                return Ok(_rep.GetAllTeachers());               
             }
             catch (Exception ex)
             {
@@ -245,21 +224,14 @@ namespace SchoolOA.Controllers
 
         }
 
-        [HttpGet("{Name:}")]
+        [HttpGet("{name:}")]
         [ProducesResponseType(typeof(IEnumerable<Teacher>), 200)]
         public IActionResult FindTeachersByName(string name)
         {
             try
             {
                 var result = _rep.GetTeachersByName(name);
-                if (result.Count()>0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No Items Found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -276,14 +248,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetTeacherByIds(idList);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No items found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -306,7 +271,7 @@ namespace SchoolOA.Controllers
                     var majors = _mapper.Map<IEnumerable<Major>>(request);
                     if (_rep.AddMajors(majors))
                     {
-                        return Created("Saved success", majors);
+                        return Ok(majors);
                     }
                 }
                 else
@@ -373,14 +338,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetAllMajors();
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -397,14 +355,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetDepartmentByGrade(grade);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("no data from table");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -421,14 +372,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetMajorNameByGradeAndDepartment(grade, department);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("no data from table");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -445,14 +389,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetMajors(request);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("no data from table");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -469,14 +406,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetMajorByIds(idList);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No items found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -499,7 +429,7 @@ namespace SchoolOA.Controllers
                     var awards = _mapper.Map<IEnumerable<TeacherReceivedAward>>(request);
                     if (_rep.AddTeacherReceivedAward(awards))
                     {
-                        return Created("Saved success", awards);
+                        return Ok(awards);
                     }
                 }
                 else
@@ -564,14 +494,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetAllTeacherReceivedAward();
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -588,14 +511,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetTeacherReceivedAwardByTeacherId(id);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No items found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -618,7 +534,7 @@ namespace SchoolOA.Controllers
                     var accounts = _mapper.Map<IEnumerable<TeacherAccount>>(request);
                     if (_rep.AddTeacherAccounts(accounts))
                     {
-                        return Created("Saved success", accounts);
+                        return Ok(accounts);
                     }
                 }
                 else
@@ -683,14 +599,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetAllTeacherAccounts();
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -707,14 +616,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetTeacherAccountByTeacherId(id);
-                if (result != null)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No items found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -737,7 +639,7 @@ namespace SchoolOA.Controllers
                     var classes = _mapper.Map<IEnumerable<Class>>(request);
                     if (_rep.AddClasses(classes))
                     {
-                        return Created("Saved success", classes);
+                        return Ok(classes);
                     }
                 }
                 else
@@ -800,16 +702,8 @@ namespace SchoolOA.Controllers
         public IActionResult GetAllClasses()
         {
             try
-            {
-                var result = _rep.GetAllClasses();
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+            {                
+                return Ok(_rep.GetAllClasses());                
             }
             catch (Exception ex)
             {
@@ -826,14 +720,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetClassesByIds(idList);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No items found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -850,14 +737,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetClassesByMajorIds(idList);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No items found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -874,14 +754,23 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetClassesByMentorId(id);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No items found");
-                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(IEnumerable<Class>), 200)]
+        public IActionResult GetClassesByClassInfo([FromBody] ClassInfoRequestBody info)
+        {
+            try
+            {
+                return Ok(_rep.GetClassesByClassInfo(info));
             }
             catch (Exception ex)
             {
@@ -913,7 +802,7 @@ namespace SchoolOA.Controllers
                     
                     if (_rep.AddStudents(students))
                     {
-                        return Created("Saved success", students);
+                        return Ok(students);
                     }
                 }
                 else
@@ -985,21 +874,14 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetAllStudents();
-                if (result.Count() > 0)
+                foreach (var student in result)
                 {
-                    foreach (var student in result)
+                    if (student.Portrait != null)
                     {
-                        if (student.Portrait != null)
-                        {
-                            student.Portrait = _pic.GetPhoto(student.Portrait);
-                        }
+                        student.Portrait = _pic.GetPhoto(student.Portrait);
                     }
-                    return Ok(result);
                 }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+                return Ok(result);                
             }
             catch (Exception ex)
             {
@@ -1016,21 +898,15 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetStudentsByName(name);
-                if (result.Count()>0)
+                foreach (var student in result)
                 {
-                    foreach (var student in result)
+                    if (student.Portrait != null)
                     {
-                        if (student.Portrait != null)
-                        {
-                            student.Portrait = _pic.GetPhoto(student.Portrait);
-                        }
+                        student.Portrait = _pic.GetPhoto(student.Portrait);
                     }
-                    return Ok(result);
                 }
-                else
-                {
-                    return NotFound("No Items Found");
-                }
+                return Ok(result);
+                
             }
             catch (Exception ex)
             {
@@ -1046,18 +922,11 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetStudentByIDCardNumber(number);
-                if (result != null)
-                {                    
-                    if (result.Portrait != null)
-                    {
-                        result.Portrait = _pic.GetPhoto(result.Portrait);
-                    }                    
-                    return Ok(result);
-                }
-                else
+                if (result.Portrait != null)
                 {
-                    return NotFound("No Items Found");
+                    result.Portrait = _pic.GetPhoto(result.Portrait);
                 }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1073,21 +942,14 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetStudentsByClassInfo(rquest);
-                if (result.Count() > 0)
+                foreach (var student in result)
                 {
-                    foreach (var student in result)
+                    if (student.Portrait != null)
                     {
-                        if (student.Portrait != null)
-                        {
-                            student.Portrait = _pic.GetPhoto(student.Portrait);
-                        }
+                        student.Portrait = _pic.GetPhoto(student.Portrait);
                     }
-                    return Ok(result);
                 }
-                else
-                {
-                    return NotFound("No Items Found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1097,6 +959,28 @@ namespace SchoolOA.Controllers
 
         }
 
+        [HttpPost]
+        [ProducesResponseType(typeof(IEnumerable<Student>), 200)]
+        public IActionResult GetStudentsByIds([FromBody] IEnumerable<int> idList)
+        {
+            try
+            {
+                var result = _rep.GetStudentsByIds(idList);                
+                    foreach (var student in result)
+                    {
+                        if (student.Portrait != null)
+                        {
+                            student.Portrait = _pic.GetPhoto(student.Portrait);
+                        }
+                    }
+                    return Ok(result);                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+        }
         #endregion Student
 
         #region Enroll
@@ -1118,7 +1002,7 @@ namespace SchoolOA.Controllers
                     var students = _mapper.Map<IEnumerable<Enroll>>(request);
                     if (_rep.AddEnroll(students))
                     {
-                        return Created("Saved success", students);
+                        return Ok(students);
                     }
                 }
                 else
@@ -1192,21 +1076,14 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetAllEnroll();
-                if (result.Count() >0)
+                foreach (var student in result)
                 {
-                    foreach (var student in result)
+                    if (student.Portrait != null)
                     {
-                        if (student.Portrait != null)
-                        {
-                            student.Portrait = _pic.GetPhoto(student.Portrait);
-                        }
+                        student.Portrait = _pic.GetPhoto(student.Portrait);
                     }
-                    return Ok(result);
                 }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1222,21 +1099,14 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetEnrollByMajor(request);
-                if (result.Count()>0)
+                foreach (var student in result)
                 {
-                    foreach (var student in result)
+                    if (student.Portrait != null)
                     {
-                        if (student.Portrait != null)
-                        {
-                            student.Portrait = _pic.GetPhoto(student.Portrait);
-                        }
+                        student.Portrait = _pic.GetPhoto(student.Portrait);
                     }
-                    return Ok(result);
                 }
-                else
-                {
-                    return NotFound("No items found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1252,18 +1122,11 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetEnrollByIDCardNumber(number);
-                if (result != null)
+                if (result.Portrait != null)
                 {
-                    if (result.Portrait != null)
-                    {
-                        result.Portrait = _pic.GetPhoto(result.Portrait);
-                    }
-                    return Ok(result);
+                    result.Portrait = _pic.GetPhoto(result.Portrait);
                 }
-                else
-                {
-                    return NotFound("No Items Found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1285,7 +1148,7 @@ namespace SchoolOA.Controllers
                     var information = _mapper.Map<IEnumerable<CourseResponsibleByTeacher>>(request);
                     if (_rep.AddCourseResponsibleByTeacher(information))
                     {
-                        return Created("Saved success", information);
+                        return Ok(information);
                     }
                 }
                 else
@@ -1352,14 +1215,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetAllCourseResponsibleByTeacher();
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1375,14 +1231,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetCourseAndClassByTeacherId(id);
-                if (result.Count()>0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No Items Found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1405,7 +1254,7 @@ namespace SchoolOA.Controllers
                     var information = _mapper.Map<IEnumerable<CourseSchedule>>(request);
                     if (_rep.AddCourseSchedule(information))
                     {
-                        return Created("Saved success", information);
+                        return Ok(information);
                     }
                 }
                 else
@@ -1471,14 +1320,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetAllCourseSchedule();
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1494,14 +1336,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetCourseScheduleByTeacherId(teacherId);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No Items Found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1517,14 +1352,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetCourseScheduleByClassId(classId);
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No Items Found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1546,7 +1374,7 @@ namespace SchoolOA.Controllers
                     var information = _mapper.Map<IEnumerable<CourseSelection>>(request);
                     if (_rep.AddCourseSelection(information))
                     {
-                        return Created("Saved success", information);
+                        return Ok(information);
                     }
                 }
                 else
@@ -1612,14 +1440,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetAllCourseSelection();
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1628,21 +1449,14 @@ namespace SchoolOA.Controllers
             }
         }
 
-        [HttpGet("{studnetId:}")]
+        [HttpGet("{studentId:}")]
         [ProducesResponseType(typeof(IEnumerable<CourseSelection>), 200)]
-        public IActionResult GetCourseSelectionByStudentId(int studnetId)
+        public IActionResult GetCourseSelectionByStudentId(int studentId)
         {
             try
             {
-                var result = _rep.GetCourseSelectionByStudentId(studnetId);
-                if (result.Count()>0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No Items Found");
-                }
+                var result = _rep.GetCourseSelectionByStudentId(studentId);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1664,7 +1478,7 @@ namespace SchoolOA.Controllers
                     var exams = _mapper.Map<IEnumerable<Examination>>(request);
                     if (_rep.AddExaminations(exams))
                     {
-                        return Created("Saved success", exams);
+                        return Ok(exams);
                     }
                 }
                 else
@@ -1729,14 +1543,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetAllExaminations();
-                if (result.Count() > 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("Table is empty");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -1752,14 +1559,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetExaminationsByStudentsId(idList);
-                if (result.Count()>0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound("No Items Found");
-                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
