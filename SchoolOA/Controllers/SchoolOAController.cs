@@ -1569,5 +1569,20 @@ namespace SchoolOA.Controllers
         }
         #endregion Examination
 
+        [HttpGet("{details}")]
+        [ProducesResponseType(typeof(TeacherAccount), 200)]
+        public IActionResult GetTeacherAccountByTeacherNameAndPassword(string teacherName, string password)
+        {
+            try
+            {
+                var result = _rep.GetTeacherAccountByTeacherNameAndPassWord(teacherName, password);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+        }
     }
 }

@@ -535,6 +535,11 @@ namespace SchoolOA.Repositories
         }
         #endregion Examination
 
+        public bool GetTeacherAccountByTeacherNameAndPassWord(string teacherName, string password)
+        {
+            return this._context.TeacherAccounts.Where(x => x.AccountName == teacherName && x.Password == password).Count() > 0;
+        }
+
         private bool SaveChanges()
         {
             return this._context.SaveChanges() > 0;
