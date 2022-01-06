@@ -51,7 +51,12 @@ namespace SchoolOA.Repositories
         public IEnumerable<Course> GetCourseByIds(IEnumerable<int> idList )
         {
             return this._context.Courses.Where(x=> idList.Contains(x.Id)).ToList();
-        }        
+        }
+
+        public IEnumerable<Course> GetCourseByCourseName(string name)
+        {
+            return this._context.Courses.Where(x => x.CourseName == name).ToList();
+        }
         #endregion Course
 
         #region Major
@@ -223,6 +228,16 @@ namespace SchoolOA.Repositories
         public TeacherAccount GetTeacherAccountByTeacherNm(string Nm)
         {
             return this._context.TeacherAccounts.Where(x => x.AccountName == Nm).FirstOrDefault();
+        }
+
+        public bool UpdateTeacherAccountPassWord(TeacherAccount account)
+        {
+            this._context.TeacherAccounts.Update(account);
+
+
+
+            this._context.Entry(account.Teacher).State = EntityState.Detached;
+            return SaveChanges();
         }
         #endregion TeacherAccount
 

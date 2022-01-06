@@ -134,6 +134,23 @@ namespace SchoolOA.Controllers
             }
 
         }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Course>), 200)]
+        public IActionResult GetCoursesByCourseName(string name)
+        {
+            try
+            {
+                var result = _rep.GetCourseByCourseName(name);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+
+        }
         #endregion Course
 
         #region Teacher
@@ -633,6 +650,24 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetTeacherAccountByTeacherNm(name);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+        }
+
+        [HttpGet("{details}")]
+        [ProducesResponseType(typeof(bool), 200)]
+        public IActionResult UpdateTeacherAccountPassWord(string teacherNm, string newPassWord)
+        {
+            try
+            {
+                var teacherAccount = _rep.GetTeacherAccountByTeacherNm(teacherNm);
+                teacherAccount.Password = newPassWord;
+                var result = _rep.UpdateTeacherAccountPassWord(teacherAccount);
                 return Ok(result);
             }
             catch (Exception ex)
