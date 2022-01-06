@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolOA.Context;
 using SchoolOA.Entities;
@@ -13,9 +14,12 @@ namespace SchoolOA.Repositories
     {
         protected SchoolContext _context;
         private readonly ILogger<SchoolRepository> _logger;
-        public SchoolRepository(SchoolContext context, ILogger<SchoolRepository> logger) {
-            this._context = context;
-            this._logger = logger;
+        private readonly IMapper _mapper;
+
+        public SchoolRepository(SchoolContext context, ILogger<SchoolRepository> logger, IMapper mapper) {
+            _context = context;
+            _logger = logger;
+            _mapper = mapper;
         }
 
         #region Course
@@ -215,6 +219,11 @@ namespace SchoolOA.Repositories
         {
             return this._context.TeacherAccounts.Where(x => x.TeacherId == id).FirstOrDefault();
         }
+
+        public TeacherAccount GetTeacherAccountByTeacherNm(string Nm)
+        {
+            return this._context.TeacherAccounts.Where(x => x.AccountName == Nm).FirstOrDefault();
+        }
         #endregion TeacherAccount
 
         #region Class
@@ -311,6 +320,11 @@ namespace SchoolOA.Repositories
         public IEnumerable<Student> GetStudentsByIds(IEnumerable<int> idList)
         {
             return this._context.Students.Where(s => idList.Contains(s.Id)).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
+        }
+
+        public Student GetStudentByStudentNumber(string data)
+        {
+            return this._context.Students.Where(s => s.StudentNumber == data).FirstOrDefault();
         }
         #endregion Student
 
@@ -502,6 +516,38 @@ namespace SchoolOA.Repositories
             return SaveChanges();
         }
 
+        public IEnumerable<ExaminationImportBody> ImportExaminations(IEnumerable<ExaminationImportBody> exams)
+        {
+            var importFailedList = new List<ExaminationImportBody>();
+            foreach (var exam in exams) {
+                if (exam.StudentNumber.Length > 0)
+                {
+                    var student = GetStudentByStudentNumber(exam.StudentNumber);
+                    if (student != null) {
+                        var e = _mapper.Map<Examination>(exam);
+                        e.StudentId = student.Id;
+                        e.Student = student;
+                        this._context.Examinations.Add(e);
+                    }
+                    else
+                    {
+                        importFailedList.Add(exam);
+                    }
+
+                }
+                else {
+                    importFailedList.Add(exam);
+                }            
+            }
+            if (SaveChanges()) {
+                return importFailedList;
+            }
+            else
+            {
+                return exams;
+            }            
+        }
+
         public bool RemoveExaminations(IEnumerable<int> idList)
         {
             var exams = this._context.Examinations.Where(x => idList.Contains(x.Id)).ToList();
@@ -519,8 +565,8 @@ namespace SchoolOA.Repositories
         {
             return this._context.Examinations
                 .Include(i => i.Student)
-                .Include(i => i.TeacherCourseInfo)
-                .ThenInclude(i => i.Course)
+                .Include(i => i.Major)
+                .Include(i => i.Course)
                 .ToList();
         }
 
@@ -529,8 +575,8 @@ namespace SchoolOA.Repositories
             return this._context.Examinations
                 .Where(i=> idList.Contains(i.StudentId))
                 .Include(i => i.Student)
-                .Include(i => i.TeacherCourseInfo)
-                .ThenInclude(i => i.Course)
+                .Include(i => i.Major)
+                .Include(i => i.Course)
                 .ToList();
         }
         #endregion Examination

@@ -25,7 +25,8 @@ namespace SchoolOA.Context
             CreateMap<CourseScheduleRequestBody, CourseSchedule>().ReverseMap();
             CreateMap<CourseSelectionRequestBody, CourseSelection>().ReverseMap();
             CreateMap<ExaminationRequestBody, Examination>().ReverseMap();
-            
+            CreateMap<ExaminationImportBody, Examination>().ReverseMap();
+
         }
     }
 }

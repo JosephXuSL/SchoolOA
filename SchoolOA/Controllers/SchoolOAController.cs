@@ -625,6 +625,22 @@ namespace SchoolOA.Controllers
             }
 
         }
+
+        [HttpGet("{name:}")]
+        [ProducesResponseType(typeof(TeacherAccount), 200)]
+        public IActionResult GetTeacherAccountByTeacherNm(string name)
+        {
+            try
+            {
+                var result = _rep.GetTeacherAccountByTeacherNm(name);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+        }
         #endregion TeacherAccount
 
         #region Class
@@ -1480,6 +1496,30 @@ namespace SchoolOA.Controllers
                     {
                         return Ok(exams);
                     }
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+            }
+            return BadRequest("Some error makes request failed");
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(IEnumerable<ExaminationImportBody>),200)]
+        public IActionResult ImportExaminations([FromBody] IEnumerable<ExaminationImportBody> request)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var exams = _mapper.Map<IEnumerable<Examination>>(request);
+                    var list = _rep.ImportExaminations(request);
+                    return Ok(list);
                 }
                 else
                 {
