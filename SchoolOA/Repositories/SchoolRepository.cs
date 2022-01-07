@@ -233,10 +233,6 @@ namespace SchoolOA.Repositories
         public bool UpdateTeacherAccountPassWord(TeacherAccount account)
         {
             this._context.TeacherAccounts.Update(account);
-
-
-
-            this._context.Entry(account.Teacher).State = EntityState.Detached;
             return SaveChanges();
         }
         #endregion TeacherAccount
