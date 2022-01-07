@@ -3,3 +3,4 @@ dotnet tool install dotnet-ef -g
 2.cmd 跳转至当前文件(Note.txt)同级目录执一次行下方口令
 dotnet ef migrations add InitialDB
 dotnet ef database update
+
