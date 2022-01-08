@@ -225,9 +225,9 @@ namespace SchoolOA.Repositories
             return this._context.TeacherAccounts.Where(x => x.TeacherId == id).FirstOrDefault();
         }
 
-        public TeacherAccount GetTeacherAccountByTeacherNm(string Nm)
+        public TeacherAccount GetTeacherAccountByName(string accountName)
         {
-            return this._context.TeacherAccounts.Where(x => x.AccountName == Nm).FirstOrDefault();
+            return this._context.TeacherAccounts.Where(x => x.AccountName == accountName).FirstOrDefault();
         }
 
         public bool UpdateTeacherAccountPassWord(TeacherAccount account)
@@ -264,17 +264,22 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<Class> GetClassesByIds(IEnumerable<int> idList)
         {
-            return this._context.Classes.Where(x => idList.Contains(x.Id)).ToList();
+            return this._context.Classes.Where(x => idList.Contains(x.Id)).Include(x=>x.Major).Include(x => x.Mentor).ToList();
         }
 
         public IEnumerable<Class> GetClassesByMajorIds(IEnumerable<int> idList)
         {
-            return this._context.Classes.Where(x => idList.Contains(x.MajorId)).ToList();
+            return this._context.Classes.Where(x => idList.Contains(x.MajorId)).Include(x => x.Major).Include(x => x.Mentor).ToList();
         }
 
         public IEnumerable<Class> GetClassesByMentorId(int id)
         {
-            return this._context.Classes.Where(x => x.TeacherId== id).ToList();
+            return this._context.Classes.Where(x => x.TeacherId== id).Include(x => x.Major).Include(x => x.Mentor).ToList();
+        }
+
+        public IEnumerable<Class> GetClassesByTeacheNumber(string number)
+        {
+            return this._context.Classes.Where(x => x.Mentor.TeacherNumber == number).Include(x => x.Major).Include(x => x.Mentor).ToList();
         }
 
         public IEnumerable<Class> GetClassesByClassInfo(ClassInfoRequestBody p)
@@ -326,6 +331,11 @@ namespace SchoolOA.Repositories
             var classes = GetClassesByClassInfo(request);
             
             return this._context.Students.Where(s => classes.Contains(s.Class)).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
+        }
+
+        public IEnumerable<Student> GetStudentsByClassId(int id)
+        {
+            return this._context.Students.Where(s => s.ClassId == id).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
         }
 
         public IEnumerable<Student> GetStudentsByIds(IEnumerable<int> idList)
@@ -517,6 +527,12 @@ namespace SchoolOA.Repositories
                 .Include(i => i.TeacherCourseInfo)
                 .ThenInclude(i => i.Class)
                 .ToList();
+        }
+
+        public IEnumerable<CourseSelection> GetCourseSelectionByTeacher(string teacherAccount)
+        {
+            var teacherid = GetTeacherAccountByName(teacherAccount).TeacherId;
+            return GetAllCourseSelection().Where(t => t.TeacherCourseInfo.TeacherId == teacherid);
         }
         #endregion CourseSelection
 

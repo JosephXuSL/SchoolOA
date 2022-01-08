@@ -649,7 +649,7 @@ namespace SchoolOA.Controllers
         {
             try
             {
-                var result = _rep.GetTeacherAccountByTeacherNm(name);
+                var result = _rep.GetTeacherAccountByName(name);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -665,7 +665,7 @@ namespace SchoolOA.Controllers
         {
             try
             {
-                var teacherAccount = _rep.GetTeacherAccountByTeacherNm(teacherNm);
+                var teacherAccount = _rep.GetTeacherAccountByName(teacherNm);
                 teacherAccount.Password = newPassWord;
                 var result = _rep.UpdateTeacherAccountPassWord(teacherAccount);
                 return Ok(result);
@@ -813,6 +813,22 @@ namespace SchoolOA.Controllers
                 return BadRequest("Some error makes request failed");
             }
 
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Class>), 200)]
+        public IActionResult GetAllClassesByTeacherNumber(string number)
+        {
+            try
+            {
+                var result = _rep.GetClassesByTeacheNumber(number);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
         }
 
         [HttpPost]
@@ -1008,6 +1024,30 @@ namespace SchoolOA.Controllers
                 return BadRequest("Some error makes request failed");
             }
 
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Student>), 200)]
+        public IActionResult GetStudentsByClassId(int id)
+        {
+            try
+            {
+                var result = _rep.GetStudentsByClassId(id);
+                foreach (var student in result)
+                {
+                    if (student.Portrait != null)
+                    {
+                        student.Portrait = _pic.GetPhoto(student.Portrait);
+                    }
+                }
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
         }
 
         [HttpPost]
@@ -1507,6 +1547,22 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetCourseSelectionByStudentId(studentId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+        }
+
+        [HttpGet("{accountName:}")]
+        [ProducesResponseType(typeof(IEnumerable<CourseSelection>), 200)]
+        public IActionResult GetCourseSelectionByTeacherAccount(string accountName)
+        {
+            try
+            {
+                var result = _rep.GetCourseSelectionByTeacher(accountName);
                 return Ok(result);
             }
             catch (Exception ex)
