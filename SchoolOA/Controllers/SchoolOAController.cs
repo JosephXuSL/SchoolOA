@@ -676,6 +676,23 @@ namespace SchoolOA.Controllers
                 return BadRequest("Some error makes request failed");
             }
         }
+        [HttpGet("{details}")]
+        [ProducesResponseType(typeof(bool), 200)]
+        public IActionResult UpdateTeacherAccountPassWordByTNum(string teacherNum, string newPassWord)
+        {
+            try
+            {
+                var teacherAccount = _rep.GetTeacherAccountByTeacherNum(teacherNum);
+                teacherAccount.Password = newPassWord;
+                var result = _rep.UpdateTeacherAccountPassWord(teacherAccount);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+        }
         #endregion TeacherAccount
 
         #region Class

@@ -235,6 +235,11 @@ namespace SchoolOA.Repositories
             this._context.TeacherAccounts.Update(account);
             return SaveChanges();
         }
+
+        public TeacherAccount GetTeacherAccountByTeacherNum(string Num)
+        {
+            return this._context.TeacherAccounts.Where(x => x.Teacher.TeacherNumber == Num).FirstOrDefault();
+        }
         #endregion TeacherAccount
 
         #region Class
