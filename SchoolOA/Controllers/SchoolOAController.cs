@@ -1356,7 +1356,7 @@ namespace SchoolOA.Controllers
         public IActionResult AddCourseSchedule([FromBody] IEnumerable<CourseScheduleRequestBody> request)
         {
             try
-            {                
+             {
                 if (ModelState.IsValid)
                 {
                     var information = _mapper.Map<IEnumerable<CourseSchedule>>(request);

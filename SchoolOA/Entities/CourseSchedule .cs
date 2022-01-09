@@ -8,7 +8,7 @@ namespace SchoolOA.Entities
     public class CourseSchedule
     {
         public int Id { get; set; }
-        public int CourseResponsibleByTeacherId { get; set; }
+        public int TeacherCourseInfoId { get; set; }
         public CourseResponsibleByTeacher TeacherCourseInfo { get; set; }        
         public string ScheduledWeekday { get; set; }
         public string ScheduledTime { get; set; }

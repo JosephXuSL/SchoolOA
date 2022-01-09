@@ -451,11 +451,34 @@ namespace SchoolOA.Repositories
                 .Include(i => i.Course)
                 .Include(i => i.Teacher).ToList();
         }
+
+        public CourseResponsibleByTeacher FindTeacherCourseInfo(int teacherId, int couresId, int? classId)
+        {
+            return this._context.CourseResponsibleByTeacher.Where(c => c.TeacherId == teacherId && c.CourseId == couresId && c.ClassId== classId)
+                .Include(i => i.Class)
+                .Include(i => i.Course)
+                .Include(i => i.Teacher).FirstOrDefault();
+        }
         #endregion CourseResponsibleByTeacher
 
         #region CourseSchedule
         public bool AddCourseSchedule(IEnumerable<CourseSchedule> information)
         {
+            information.ToList().ForEach(i=> {
+                if (i.TeacherCourseInfoId==0)
+                {
+                   var data = this.FindTeacherCourseInfo(i.TeacherCourseInfo.TeacherId, i.TeacherCourseInfo.CourseId, i.TeacherCourseInfo.ClassId);
+                    if (data != null)
+                    {
+                        i.TeacherCourseInfoId = data.Id;
+                        i.TeacherCourseInfo = null;
+                    }
+                    else {
+                        i.TeacherCourseInfo.Id = 0;
+                    }
+                }
+            });
+            
             this._context.CourseSchedule.AddRange(information);
             return SaveChanges();
         }
@@ -482,6 +505,10 @@ namespace SchoolOA.Repositories
                 .ThenInclude(i => i.Course)
                 .Include(i => i.TeacherCourseInfo)
                 .ThenInclude(i => i.Class)
+                .ThenInclude(i => i.Major)
+                .Include(i => i.TeacherCourseInfo)
+                .ThenInclude(i => i.Class)
+                .ThenInclude(i => i.Mentor)
                 .ToList();
         }
 

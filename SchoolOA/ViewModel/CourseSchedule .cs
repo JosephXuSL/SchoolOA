@@ -11,7 +11,9 @@ namespace SchoolOA.Entities
         [Required]
         public int Id { get; set; }
         [Required]
-        public int CourseResponsibleByTeacherId { get; set; }
+        public int TeacherCourseInfoId { get; set; }
+        [Required]
+        public CourseResponsibleByTeacherRequestBody TeacherCourseInfo { get; set; }
         [Required]
         public string ScheduledWeekday { get; set; }
         [Required]
