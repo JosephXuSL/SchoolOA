@@ -222,12 +222,32 @@ namespace SchoolOA.Repositories
 
         public TeacherAccount GetTeacherAccountByTeacherId(int id)
         {
-            return this._context.TeacherAccounts.Where(x => x.TeacherId == id).FirstOrDefault();
+            var result= this._context.TeacherAccounts.Where(x => x.TeacherId == id).FirstOrDefault();
+            if (result!=null)
+            {
+                result.Teacher= this._context.Teachers.Where(x => x.TeacherNumber == result.AccountName).FirstOrDefault();
+            }
+            return result;
         }
 
         public TeacherAccount GetTeacherAccountByName(string accountName)
         {
-            return this._context.TeacherAccounts.Where(x => x.AccountName == accountName).FirstOrDefault();
+            var result = this._context.TeacherAccounts.Where(x => x.AccountName == accountName).FirstOrDefault();
+            if (result != null)
+            {
+                result.Teacher = this._context.Teachers.Where(x => x.TeacherNumber == result.AccountName).FirstOrDefault();
+            }
+            return result;
+
+        }
+        public TeacherAccount GetTeacherAccountByTeacherNumber(string teacherNumber)
+        {
+            var result = this._context.TeacherAccounts.Where(x => x.Teacher.TeacherNumber == teacherNumber).FirstOrDefault();
+            if (result != null)
+            {
+                result.Teacher = this._context.Teachers.Where(x => x.TeacherNumber == result.AccountName).FirstOrDefault();
+            }
+            return result;
         }
 
         public bool UpdateTeacherAccountPassWord(TeacherAccount account)
@@ -238,7 +258,12 @@ namespace SchoolOA.Repositories
 
         public TeacherAccount GetTeacherAccountByTeacherNum(string Num)
         {
-            return this._context.TeacherAccounts.Where(x => x.Teacher.TeacherNumber == Num).FirstOrDefault();
+            var result = this._context.TeacherAccounts.Where(x => x.Teacher.TeacherNumber == Num).FirstOrDefault();
+            if (result != null)
+            {
+                result.Teacher = this._context.Teachers.Where(x => x.TeacherNumber == Num).FirstOrDefault();
+            }
+            return result;
         }
         #endregion TeacherAccount
 
@@ -534,9 +559,9 @@ namespace SchoolOA.Repositories
                 .ToList();
         }
 
-        public IEnumerable<CourseSelection> GetCourseSelectionByTeacher(string teacherAccount)
+        public IEnumerable<CourseSelection> GetCourseSelectionByTeacher(string teacherNumber)
         {
-            var teacherid = GetTeacherAccountByName(teacherAccount).TeacherId;
+            var teacherid = GetTeacherAccountByTeacherNumber(teacherNumber).TeacherId;
             return GetAllCourseSelection().Where(t => t.TeacherCourseInfo.TeacherId == teacherid);
         }
         #endregion CourseSelection
@@ -613,9 +638,14 @@ namespace SchoolOA.Repositories
         }
         #endregion Examination
 
-        public TeacherAccount GetTeacherAccountByTeacherNameAndPassWord(string teacherName, string password)
+        public TeacherAccount GetTeacherAccountByTeacherNameAndPassWord(string loginName, string password)
         {
-            return this._context.TeacherAccounts.Where(x => x.AccountName == teacherName && x.Password == password).FirstOrDefault();
+            var result = this._context.TeacherAccounts.Where(x => x.AccountName == loginName && x.Password == password).FirstOrDefault();
+            if (result != null)
+            {
+                result.Teacher = this._context.Teachers.Where(x => x.TeacherNumber == loginName).FirstOrDefault();
+            }
+            return result;
         }
 
         private bool SaveChanges()
