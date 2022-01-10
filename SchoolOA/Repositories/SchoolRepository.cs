@@ -569,6 +569,7 @@ namespace SchoolOA.Repositories
                 .ThenInclude(i => i.Course)
                 .Include(i => i.TeacherCourseInfo)
                 .ThenInclude(i => i.Class)
+                .ThenInclude(i => i.Major)
                 .ToList();
         }
 

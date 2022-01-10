@@ -1006,7 +1006,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetStudentByIDCardNumber(number);
-                if (result.Portrait != null)
+                if (result != null && result.Portrait != null)
                 {
                     result.Portrait = _pic.GetPhoto(result.Portrait);
                 }
@@ -1230,7 +1230,7 @@ namespace SchoolOA.Controllers
             try
             {
                 var result = _rep.GetEnrollByIDCardNumber(number);
-                if (result.Portrait != null)
+                if (result != null && result.Portrait != null)
                 {
                     result.Portrait = _pic.GetPhoto(result.Portrait);
                 }
