@@ -241,6 +241,22 @@ namespace SchoolOA.Controllers
 
         }
 
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Teacher>), 200)]
+        public IActionResult GetAllNoAccountTeachers()
+        {
+            try
+            {
+                return Ok(_rep.GetAllNoAccountTeachers());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+
+        }
+
         [HttpGet("{name:}")]
         [ProducesResponseType(typeof(IEnumerable<Teacher>), 200)]
         public IActionResult FindTeachersByName(string name)
@@ -1618,7 +1634,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(IEnumerable<ExaminationImportBody>),200)]
+        [ProducesResponseType(typeof(IEnumerable<string>),200)]
         public IActionResult ImportExaminations([FromBody] IEnumerable<ExaminationImportBody> request)
         {
             try

@@ -139,6 +139,12 @@ namespace SchoolOA.Repositories
             return this._context.Teachers.ToList();
         }
 
+        public IEnumerable<Teacher> GetAllNoAccountTeachers()
+        {
+            var idList = _context.TeacherAccounts.Select(t=>t.TeacherId);
+            return _context.Teachers.Where(t=> !idList.Contains(t.Id)).ToList();
+        }
+
         public IEnumerable<Teacher> GetTeachersByName(string name)
         {
             return this._context.Teachers.Where(t=>t.Name == name).ToList();
@@ -601,9 +607,9 @@ namespace SchoolOA.Repositories
             return SaveChanges();
         }
 
-        public IEnumerable<ExaminationImportBody> ImportExaminations(IEnumerable<ExaminationImportBody> exams)
+        public IEnumerable<string> ImportExaminations(IEnumerable<ExaminationImportBody> exams)
         {
-            var importFailedList = new List<ExaminationImportBody>();
+            var importFailedList = new List<string>();
             foreach (var exam in exams) {
                 if (exam.StudentNumber.Length > 0)
                 {
@@ -616,21 +622,16 @@ namespace SchoolOA.Repositories
                     }
                     else
                     {
-                        importFailedList.Add(exam);
+                        importFailedList.Add(exam.StudentNumber);
                     }
 
                 }
                 else {
-                    importFailedList.Add(exam);
+                    importFailedList.Add(exam.StudentNumber);
                 }            
             }
-            if (SaveChanges()) {
-                return importFailedList;
-            }
-            else
-            {
-                return exams;
-            }            
+            SaveChanges();
+            return importFailedList;            
         }
 
         public bool RemoveExaminations(IEnumerable<int> idList)
@@ -650,6 +651,11 @@ namespace SchoolOA.Repositories
         {
             return this._context.Examinations
                 .Include(i => i.Student)
+                .ThenInclude(s=>s.Class)
+                .ThenInclude(c=>c.Major)
+                .Include(i => i.Student)
+                .ThenInclude(s => s.Class)
+                .ThenInclude(c => c.Mentor)
                 .Include(i => i.Major)
                 .Include(i => i.Course)
                 .ToList();
