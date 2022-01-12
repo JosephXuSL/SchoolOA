@@ -290,6 +290,28 @@ namespace SchoolOA.Controllers
             }
 
         }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(Boolean), 200)]
+        public IActionResult CheckTeacherByteacherNumber([FromBody] string teacherNumber)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    return Ok(_rep.CheckTeacherExistByteacherNumber(teacherNumber));
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+            }
+            return BadRequest("Some error makes request failed");
+        }
         #endregion Teacher
 
         #region Major
@@ -1484,6 +1506,22 @@ namespace SchoolOA.Controllers
                 return BadRequest("Some error makes request failed");
             }
         }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(IEnumerable<CourseSchedule>), 200)]
+        public IActionResult GetCourseScheduleByIds([FromBody] IEnumerable<int> idList)
+        {
+            try
+            {
+                var result = _rep.GetCourseScheduleByIds(idList);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+        }
         #endregion CourseSchedule
 
         #region CourseSelection
@@ -1718,11 +1756,27 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(IEnumerable<Examination>), 200)]
-        public IActionResult GetExaminationsByStudentIds(IEnumerable<int> idList)
+        public IActionResult GetExaminationsByStudentIds([FromBody] IEnumerable<int> idList)
         {
             try
             {
                 var result = _rep.GetExaminationsByStudentsId(idList);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed due to : {ex}");
+                return BadRequest("Some error makes request failed");
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(IEnumerable<Examination>), 200)]
+        public IActionResult GetExaminationsByIds([FromBody] IEnumerable<int> idList)
+        {
+            try
+            {
+                var result = _rep.GetExaminationsByIds(idList);
                 return Ok(result);
             }
             catch (Exception ex)

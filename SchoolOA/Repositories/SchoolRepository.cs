@@ -154,6 +154,11 @@ namespace SchoolOA.Repositories
         {
             return this._context.Teachers.Where(x => idList.Contains(x.Id)).ToList();
         }
+
+        public bool CheckTeacherExistByteacherNumber(string teacherNum)
+        {
+            return this._context.Teachers.Where(x => x.TeacherNumber == teacherNum).Count() > 0;
+        }
         #endregion Teacher
 
         #region TeacherReceivedAward
@@ -543,6 +548,19 @@ namespace SchoolOA.Repositories
                 .Where(c => c.TeacherCourseInfo.ClassId == id)
                 .ToList();
         }
+
+        public IEnumerable<CourseSchedule> GetCourseScheduleByIds(IEnumerable<int> idList)
+        {
+            return this._context.CourseSchedule
+                .Include(i => i.TeacherCourseInfo)
+                .ThenInclude(i => i.Teacher)
+                .Include(i => i.TeacherCourseInfo)
+                .ThenInclude(i => i.Course)
+                .Include(i => i.TeacherCourseInfo)
+                .ThenInclude(i => i.Class)
+                .Where(c => idList.Contains(c.Id))
+                .ToList();
+        }
         #endregion CourseSchedule
 
         #region CourseSelection
@@ -665,6 +683,16 @@ namespace SchoolOA.Repositories
         {
             return this._context.Examinations
                 .Where(i=> idList.Contains(i.StudentId))
+                .Include(i => i.Student)
+                .Include(i => i.Major)
+                .Include(i => i.Course)
+                .ToList();
+        }
+
+        public IEnumerable<Examination> GetExaminationsByIds(IEnumerable<int> idList)
+        {
+            return this._context.Examinations
+                .Where(i => idList.Contains(i.Id))
                 .Include(i => i.Student)
                 .Include(i => i.Major)
                 .Include(i => i.Course)
