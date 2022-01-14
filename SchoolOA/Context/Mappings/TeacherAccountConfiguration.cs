@@ -17,7 +17,7 @@ namespace SchoolOA.Context.Mappings
             builder.Property(p => p.AccountName).HasColumnType("nvarchar").HasMaxLength(100).IsRequired(true).HasColumnName("AccountName");
             builder.Property(p => p.Password).HasColumnType("nvarchar").HasMaxLength(20).IsRequired(true).HasColumnName("Password");
             builder.Property(p => p.AccountStatus).HasColumnType("nvarchar").HasMaxLength(20).IsRequired(false).HasColumnName("AccountStatus");            
-            builder.Property(p => p.IsMentorAccount).HasColumnType("bit").HasColumnName("IsMentorAccount");
+            builder.Property(p => p.IsAdminAccount).HasColumnType("bit").HasColumnName("IsAdminAccount");
         }
     }
 }

@@ -13,6 +13,6 @@ namespace SchoolOA.Entities
         public string AccountName { get; set; }
         public string Password { get; set; }
         public string AccountStatus { get; set; }
-        public bool IsMentorAccount { get; set; }
+        public bool IsAdminAccount { get; set; }
     }
 }
