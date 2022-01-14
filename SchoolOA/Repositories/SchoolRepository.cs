@@ -25,118 +25,118 @@ namespace SchoolOA.Repositories
         #region Course
         public bool AddCourses(IEnumerable<Course> courses)
         {
-            this._context.Courses.AddRange(courses);
+            _context.Courses.AddRange(courses);
             return SaveChanges();
         }
 
         public bool RemoveCourses(IEnumerable<int> idList)
         {
-            var courses = this._context.Courses.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.Courses.RemoveRange(courses);
+            var courses = _context.Courses.Where(x => idList.Contains(x.Id)).ToList();
+            _context.Courses.RemoveRange(courses);
             return SaveChanges();
         }
 
         public bool UpdateCourses(IEnumerable<Course> courses)
         {
 
-            this._context.Courses.UpdateRange(courses);
+            _context.Courses.UpdateRange(courses);
             return SaveChanges();
         }
 
         public IEnumerable<Course> GetAllCourses()
         {
-            return this._context.Courses.ToList();
+            return _context.Courses.ToList();
         }
 
         public IEnumerable<Course> GetCourseByIds(IEnumerable<int> idList )
         {
-            return this._context.Courses.Where(x=> idList.Contains(x.Id)).ToList();
+            return _context.Courses.Where(x=> idList.Contains(x.Id)).ToList();
         }
 
         public IEnumerable<Course> GetCourseByCourseName(string name)
         {
-            return this._context.Courses.Where(x => x.CourseName == name).ToList();
+            return _context.Courses.Where(x => x.CourseName == name).ToList();
         }
         #endregion Course
 
         #region Major
         public bool AddMajors(IEnumerable<Major> majors)
         {
-            this._context.Majors.AddRange(majors);
+            _context.Majors.AddRange(majors);
             return SaveChanges();
         }
 
         public bool RemoveMajors(IEnumerable<int> idList)
         {
-            var majors = this._context.Majors.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.Majors.RemoveRange(majors);
+            var majors = _context.Majors.Where(x => idList.Contains(x.Id)).ToList();
+            _context.Majors.RemoveRange(majors);
             return SaveChanges();
         }
 
         public bool UpdateMajors(IEnumerable<Major> majors)
         {
 
-            this._context.Majors.UpdateRange(majors);
+            _context.Majors.UpdateRange(majors);
             return SaveChanges();
         }
 
         public IEnumerable<Major> GetAllMajors()
         {
-            return this._context.Majors.ToList();
+            return _context.Majors.ToList();
         }
 
         public IEnumerable<string> GetDepartmentByGrade(string grade)
         {
             var departmentList = new List<string>();
-            this._context.Majors.Where(m=>m.Grade== grade).ToList().ForEach(m=> { if (!departmentList.Contains(m.Department)) { departmentList.Add(m.Department); } });
+            _context.Majors.Where(m=>m.Grade== grade).ToList().ForEach(m=> { if (!departmentList.Contains(m.Department)) { departmentList.Add(m.Department); } });
             return departmentList;
         }
 
         public IEnumerable<string> GetMajorNameByGradeAndDepartment(string grade, string department)
         {
             var MajorName = new List<string>();
-            this._context.Majors.Where(m => (grade== null? true : m.Grade== grade) && (department == null ? true : m.Department== department))
+            _context.Majors.Where(m => (grade== null? true : m.Grade== grade) && (department == null ? true : m.Department== department))
                 .ToList().ForEach(m => { if (!MajorName.Contains(m.MajorName)) { MajorName.Add(m.MajorName); } });
             return MajorName;
         }
 
         public IEnumerable<Major> GetMajors(GetMajorRequestBody request)
         {            
-            return this._context.Majors.Where(m => (request.Grade == null ? true : m.Grade == request.Grade)
+            return _context.Majors.Where(m => (request.Grade == null ? true : m.Grade == request.Grade)
             && (request.Department == null ? true : m.Department == request.Department) 
             && (request.MajorName == null ? true : m.MajorName ==request.MajorName)).ToList();
         }
 
         public IEnumerable<Major> GetMajorByIds(IEnumerable<int> idList)
         {
-            return this._context.Majors.Where(x => idList.Contains(x.Id)).ToList();
+            return _context.Majors.Where(x => idList.Contains(x.Id)).ToList();
         }
         #endregion Major
 
         #region Teacher
         public bool AddTeachers(IEnumerable<Teacher> teachers)
         {
-            this._context.Teachers.AddRange(teachers);
+            _context.Teachers.AddRange(teachers);
             return SaveChanges();
         }
 
         public bool RemoveTeachers(IEnumerable<int> idList)
         {
-            var teachers = this._context.Teachers.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.Teachers.RemoveRange(teachers);
+            var teachers = _context.Teachers.Where(x => idList.Contains(x.Id)).ToList();
+            _context.Teachers.RemoveRange(teachers);
             return SaveChanges();
         }
 
         public bool UpdateTeachers(IEnumerable<Teacher> teachers)
         {
 
-            this._context.Teachers.UpdateRange(teachers);
+            _context.Teachers.UpdateRange(teachers);
             return SaveChanges();
         }
 
         public IEnumerable<Teacher> GetAllTeachers()
         {
-            return this._context.Teachers.ToList();
+            return _context.Teachers.ToList();
         }
 
         public IEnumerable<Teacher> GetAllNoAccountTeachers()
@@ -147,60 +147,60 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<Teacher> GetTeachersByName(string name)
         {
-            return this._context.Teachers.Where(t=>t.Name == name).ToList();
+            return _context.Teachers.Where(t=>t.Name == name).ToList();
         }
 
         public IEnumerable<Teacher> GetTeacherByIds(IEnumerable<int> idList)
         {
-            return this._context.Teachers.Where(x => idList.Contains(x.Id)).ToList();
+            return _context.Teachers.Where(x => idList.Contains(x.Id)).ToList();
         }
 
         public bool CheckTeacherExistByteacherNumber(string teacherNum)
         {
-            return this._context.Teachers.Where(x => x.TeacherNumber == teacherNum).Count() > 0;
+            return _context.Teachers.Where(x => x.TeacherNumber == teacherNum).Count() > 0;
         }
         #endregion Teacher
 
         #region TeacherReceivedAward
         public bool AddTeacherReceivedAward(IEnumerable<TeacherReceivedAward> awards)
         {
-            this._context.TeacherReceivedAward.AddRange(awards);
+            _context.TeacherReceivedAward.AddRange(awards);
             return SaveChanges();
         }
 
         public bool RemoveTeacherReceivedAward(IEnumerable<int> idList)
         {
-            var awards = this._context.TeacherReceivedAward.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.TeacherReceivedAward.RemoveRange(awards);
+            var awards = _context.TeacherReceivedAward.Where(x => idList.Contains(x.Id)).ToList();
+            _context.TeacherReceivedAward.RemoveRange(awards);
             return SaveChanges();
         }
 
         public bool UpdateTeacherReceivedAward(IEnumerable<TeacherReceivedAward> awards)
         {
-            this._context.TeacherReceivedAward.UpdateRange(awards);
+            _context.TeacherReceivedAward.UpdateRange(awards);
             return SaveChanges();
         }
 
         public IEnumerable<TeacherReceivedAward> GetAllTeacherReceivedAward()
         {
-            return this._context.TeacherReceivedAward.Include(t=>t.Teacher).ToList();
+            return _context.TeacherReceivedAward.Include(t=>t.Teacher).ToList();
         }
 
         public IEnumerable<TeacherReceivedAward> GetTeacherReceivedAwardByTeacherId(int id)
         {
-            return this._context.TeacherReceivedAward.Where(x => x.TeacherId == id).ToList();
+            return _context.TeacherReceivedAward.Where(x => x.TeacherId == id).ToList();
         }
         #endregion TeacherReceivedAward
 
         #region TeacherAccount
         public bool AddTeacherAccounts(IEnumerable<TeacherAccount> accounts)
         {
-            this._context.TeacherAccounts.AddRange(accounts);
+            _context.TeacherAccounts.AddRange(accounts);
             foreach (var account in accounts)
             {
                 if (account.Teacher != null)
                 {
-                    this._context.Entry(account.Teacher).State = EntityState.Unchanged;
+                    _context.Entry(account.Teacher).State = EntityState.Unchanged;
                 }
             }
             return SaveChanges();
@@ -208,19 +208,19 @@ namespace SchoolOA.Repositories
 
         public bool RemoveTeacherAccounts(IEnumerable<int> idList)
         {
-            var accounts = this._context.TeacherAccounts.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.TeacherAccounts.RemoveRange(accounts);
+            var accounts = _context.TeacherAccounts.Where(x => idList.Contains(x.Id)).ToList();
+            _context.TeacherAccounts.RemoveRange(accounts);
             return SaveChanges();
         }
 
         public bool UpdateTeacherAccounts(IEnumerable<TeacherAccount> accounts)
         {
-            this._context.TeacherAccounts.UpdateRange(accounts);
+            _context.TeacherAccounts.UpdateRange(accounts);
             foreach (var account in accounts)
             {
                 if (account.Teacher != null)
                 {
-                    this._context.Entry(account.Teacher).State = EntityState.Detached;
+                    _context.Entry(account.Teacher).State = EntityState.Detached;
                 }
             }
             return SaveChanges();
@@ -228,51 +228,51 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<TeacherAccount> GetAllTeacherAccounts()
         {
-            return this._context.TeacherAccounts.Include(t => t.Teacher).ToList();
+            return _context.TeacherAccounts.Include(t => t.Teacher).ToList();
         }
 
         public TeacherAccount GetTeacherAccountByTeacherId(int id)
         {
-            var result= this._context.TeacherAccounts.Where(x => x.TeacherId == id).FirstOrDefault();
+            var result= _context.TeacherAccounts.Where(x => x.TeacherId == id).FirstOrDefault();
             if (result!=null)
             {
-                result.Teacher= this._context.Teachers.Where(x => x.TeacherNumber == result.AccountName).FirstOrDefault();
+                result.Teacher= _context.Teachers.Where(x => x.TeacherNumber == result.AccountName).FirstOrDefault();
             }
             return result;
         }
 
         public TeacherAccount GetTeacherAccountByName(string accountName)
         {
-            var result = this._context.TeacherAccounts.Where(x => x.AccountName == accountName).FirstOrDefault();
+            var result = _context.TeacherAccounts.Where(x => x.AccountName == accountName).FirstOrDefault();
             if (result != null)
             {
-                result.Teacher = this._context.Teachers.Where(x => x.TeacherNumber == result.AccountName).FirstOrDefault();
+                result.Teacher = _context.Teachers.Where(x => x.TeacherNumber == result.AccountName).FirstOrDefault();
             }
             return result;
 
         }
         public TeacherAccount GetTeacherAccountByTeacherNumber(string teacherNumber)
         {
-            var result = this._context.TeacherAccounts.Where(x => x.Teacher.TeacherNumber == teacherNumber).FirstOrDefault();
+            var result = _context.TeacherAccounts.Where(x => x.Teacher.TeacherNumber == teacherNumber).FirstOrDefault();
             if (result != null)
             {
-                result.Teacher = this._context.Teachers.Where(x => x.TeacherNumber == result.AccountName).FirstOrDefault();
+                result.Teacher = _context.Teachers.Where(x => x.TeacherNumber == result.AccountName).FirstOrDefault();
             }
             return result;
         }
 
         public bool UpdateTeacherAccountPassWord(TeacherAccount account)
         {
-            this._context.TeacherAccounts.Update(account);
+            _context.TeacherAccounts.Update(account);
             return SaveChanges();
         }
 
         public TeacherAccount GetTeacherAccountByTeacherNum(string Num)
         {
-            var result = this._context.TeacherAccounts.Where(x => x.Teacher.TeacherNumber == Num).FirstOrDefault();
+            var result = _context.TeacherAccounts.Where(x => x.Teacher.TeacherNumber == Num).FirstOrDefault();
             if (result != null)
             {
-                result.Teacher = this._context.Teachers.Where(x => x.TeacherNumber == Num).FirstOrDefault();
+                result.Teacher = _context.Teachers.Where(x => x.TeacherNumber == Num).FirstOrDefault();
             }
             return result;
         }
@@ -281,51 +281,51 @@ namespace SchoolOA.Repositories
         #region Class
         public bool AddClasses(IEnumerable<Class> classes)
         {
-            this._context.Classes.AddRange(classes);
+            _context.Classes.AddRange(classes);
             return SaveChanges();
         }
 
         public bool RemoveClasses(IEnumerable<int> idList)
         {
-            var classes = this._context.Classes.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.Classes.RemoveRange(classes);
+            var classes = _context.Classes.Where(x => idList.Contains(x.Id)).ToList();
+            _context.Classes.RemoveRange(classes);
             return SaveChanges();
         }
 
         public bool UpdateClasses(IEnumerable<Class> classes)
         {
-            this._context.Classes.UpdateRange(classes);
+            _context.Classes.UpdateRange(classes);
             return SaveChanges();
         }
 
         public IEnumerable<Class> GetAllClasses()
         {
-            return this._context.Classes.Include(t => t.Mentor).Include(t => t.Major).ToList();
+            return _context.Classes.Include(t => t.Mentor).Include(t => t.Major).ToList();
         }
 
         public IEnumerable<Class> GetClassesByIds(IEnumerable<int> idList)
         {
-            return this._context.Classes.Where(x => idList.Contains(x.Id)).Include(x=>x.Major).Include(x => x.Mentor).ToList();
+            return _context.Classes.Where(x => idList.Contains(x.Id)).Include(x=>x.Major).Include(x => x.Mentor).ToList();
         }
 
         public IEnumerable<Class> GetClassesByMajorIds(IEnumerable<int> idList)
         {
-            return this._context.Classes.Where(x => idList.Contains(x.MajorId)).Include(x => x.Major).Include(x => x.Mentor).ToList();
+            return _context.Classes.Where(x => idList.Contains(x.MajorId)).Include(x => x.Major).Include(x => x.Mentor).ToList();
         }
 
         public IEnumerable<Class> GetClassesByMentorId(int id)
         {
-            return this._context.Classes.Where(x => x.TeacherId== id).Include(x => x.Major).Include(x => x.Mentor).ToList();
+            return _context.Classes.Where(x => x.TeacherId== id).Include(x => x.Major).Include(x => x.Mentor).ToList();
         }
 
         public IEnumerable<Class> GetClassesByTeacheNumber(string number)
         {
-            return this._context.Classes.Where(x => x.Mentor.TeacherNumber == number).Include(x => x.Major).Include(x => x.Mentor).ToList();
+            return _context.Classes.Where(x => x.Mentor.TeacherNumber == number).Include(x => x.Major).Include(x => x.Mentor).ToList();
         }
 
         public IEnumerable<Class> GetClassesByClassInfo(ClassInfoRequestBody p)
         {
-            return this._context.Classes.Where(x => (p.Department==null? true: p.Department==x.Major.Department) 
+            return _context.Classes.Where(x => (p.Department==null? true: p.Department==x.Major.Department) 
             && (p.Grade == null ? true : p.Grade == x.Major.Grade)
             && (p.MajorName == null ? true : p.MajorName == x.Major.MajorName)
             && (p.ClassNumber == null ? true : p.ClassNumber == x.ClassNumber)).Include(c => c.Major).Include(c => c.Mentor).ToList();
@@ -335,94 +335,94 @@ namespace SchoolOA.Repositories
         #region Student
         public bool AddStudents(IEnumerable<Student> students)
         {
-            this._context.Students.AddRange(students);
+            _context.Students.AddRange(students);
             return SaveChanges();
         }
 
         public bool RemoveStudents(IEnumerable<int> idList)
         {
-            var students = this._context.Students.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.Students.RemoveRange(students);
+            var students = _context.Students.Where(x => idList.Contains(x.Id)).ToList();
+            _context.Students.RemoveRange(students);
             return SaveChanges();
         }
 
         public bool UpdateStudents(IEnumerable<Student> students)
         {
-            this._context.Students.UpdateRange(students);
+            _context.Students.UpdateRange(students);
             return SaveChanges();
         }
 
         public IEnumerable<Student> GetAllStudents()
         {
-            return this._context.Students.Include(t => t.Class).ThenInclude(c=>c.Mentor).Include(t => t.Major).ToList();
+            return _context.Students.Include(t => t.Class).ThenInclude(c=>c.Mentor).Include(t => t.Major).ToList();
         }
 
         public IEnumerable<Student> GetStudentsByName(string name)
         {
-            return this._context.Students.Where(s=>s.Name== name).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
+            return _context.Students.Where(s=>s.Name== name).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
         }
 
         public Student GetStudentByIDCardNumber(string id)
         {
-            return this._context.Students.Where(s => s.IdentityCardNumber == id).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).FirstOrDefault();
+            return _context.Students.Where(s => s.IdentityCardNumber == id).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).FirstOrDefault();
         }
 
         public IEnumerable<Student> GetStudentsByClassInfo(ClassInfoRequestBody request)
         {
             var classes = GetClassesByClassInfo(request);
             
-            return this._context.Students.Where(s => classes.Contains(s.Class)).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
+            return _context.Students.Where(s => classes.Contains(s.Class)).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
         }
 
         public IEnumerable<Student> GetStudentsByClassId(int id)
         {
-            return this._context.Students.Where(s => s.ClassId == id).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
+            return _context.Students.Where(s => s.ClassId == id).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
         }
 
         public IEnumerable<Student> GetStudentsByIds(IEnumerable<int> idList)
         {
-            return this._context.Students.Where(s => idList.Contains(s.Id)).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
+            return _context.Students.Where(s => idList.Contains(s.Id)).Include(t => t.Class).ThenInclude(c => c.Mentor).Include(t => t.Major).ToList();
         }
 
         public Student GetStudentByStudentNumber(string data)
         {
-            return this._context.Students.Where(s => s.StudentNumber == data).FirstOrDefault();
+            return _context.Students.Where(s => s.StudentNumber == data).FirstOrDefault();
         }
         #endregion Student
 
         #region Enroll
         public bool AddEnroll(IEnumerable<Enroll> students)
         {
-            this._context.Enroll.AddRange(students);
+            _context.Enroll.AddRange(students);
             return SaveChanges();
         }
 
         public bool RemoveEnroll(IEnumerable<int> idList)
         {
-            var students = this._context.Enroll.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.Enroll.RemoveRange(students);
+            var students = _context.Enroll.Where(x => idList.Contains(x.Id)).ToList();
+            _context.Enroll.RemoveRange(students);
             return SaveChanges();
         }
 
         public bool UpdateEnroll(IEnumerable<Enroll> students)
         {
-            this._context.Enroll.UpdateRange(students);
+            _context.Enroll.UpdateRange(students);
             return SaveChanges();
         }
 
         public IEnumerable<Enroll> GetAllEnroll()
         {
-            return this._context.Enroll.Include(t => t.Major).ToList();
+            return _context.Enroll.Include(t => t.Major).ToList();
         }
         public IEnumerable<Enroll> GetEnrollByMajor(GetMajorRequestBody request)
         {
             var majors = GetMajors(request);
-            return this._context.Enroll.Include(t => t.Major).Where(e=> majors.Contains(e.Major)).ToList();
+            return _context.Enroll.Include(t => t.Major).Where(e=> majors.Contains(e.Major)).ToList();
         }
 
         public Enroll GetEnrollByIDCardNumber(string id)
         {
-            return this._context.Enroll.Where(e => e.IdentityCardNumber == id).Include(t => t.Major).FirstOrDefault();
+            return _context.Enroll.Where(e => e.IdentityCardNumber == id).Include(t => t.Major).FirstOrDefault();
         }
 
         #endregion Enroll
@@ -430,26 +430,26 @@ namespace SchoolOA.Repositories
         #region CourseResponsibleByTeacher
         public bool AddCourseResponsibleByTeacher(IEnumerable<CourseResponsibleByTeacher> information)
         {
-            this._context.CourseResponsibleByTeacher.AddRange(information);
+            _context.CourseResponsibleByTeacher.AddRange(information);
             return SaveChanges();
         }
 
         public bool RemoveCourseResponsibleByTeacher(IEnumerable<int> idList)
         {
-            var information = this._context.CourseResponsibleByTeacher.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.CourseResponsibleByTeacher.RemoveRange(information);
+            var information = _context.CourseResponsibleByTeacher.Where(x => idList.Contains(x.Id)).ToList();
+            _context.CourseResponsibleByTeacher.RemoveRange(information);
             return SaveChanges();
         }
 
         public bool UpdateCourseResponsibleByTeacher(IEnumerable<CourseResponsibleByTeacher> information)
         {
-            this._context.CourseResponsibleByTeacher.UpdateRange(information);
+            _context.CourseResponsibleByTeacher.UpdateRange(information);
             return SaveChanges();
         }
 
         public IEnumerable<CourseResponsibleByTeacher> GetAllCourseResponsibleByTeacher()
         {
-            return this._context.CourseResponsibleByTeacher
+            return _context.CourseResponsibleByTeacher
                 .Include(i => i.Class)
                 .Include(i => i.Course)
                 .Include(i => i.Teacher).ToList();
@@ -457,7 +457,7 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<CourseResponsibleByTeacher> GetCourseAndClassByTeacherId( int id)
         {
-            return this._context.CourseResponsibleByTeacher.Where(c=>c.TeacherId==id)
+            return _context.CourseResponsibleByTeacher.Where(c=>c.TeacherId==id)
                 .Include(i => i.Class)
                 .Include(i => i.Course)
                 .Include(i => i.Teacher).ToList();
@@ -465,7 +465,7 @@ namespace SchoolOA.Repositories
 
         public CourseResponsibleByTeacher FindTeacherCourseInfo(int teacherId, int couresId, int? classId)
         {
-            return this._context.CourseResponsibleByTeacher.Where(c => c.TeacherId == teacherId && c.CourseId == couresId && c.ClassId== classId)
+            return _context.CourseResponsibleByTeacher.Where(c => c.TeacherId == teacherId && c.CourseId == couresId && c.ClassId== classId)
                 .Include(i => i.Class)
                 .Include(i => i.Course)
                 .Include(i => i.Teacher).FirstOrDefault();
@@ -476,40 +476,60 @@ namespace SchoolOA.Repositories
         public bool AddCourseSchedule(IEnumerable<CourseSchedule> information)
         {
             information.ToList().ForEach(i=> {
-                if (i.TeacherCourseInfoId==0)
+                if (i.TeacherCourseInfoId == 0)
                 {
-                   var data = this.FindTeacherCourseInfo(i.TeacherCourseInfo.TeacherId, i.TeacherCourseInfo.CourseId, i.TeacherCourseInfo.ClassId);
+                    var data = FindTeacherCourseInfo(i.TeacherCourseInfo.TeacherId, i.TeacherCourseInfo.CourseId, i.TeacherCourseInfo.ClassId);
                     if (data != null)
                     {
                         i.TeacherCourseInfoId = data.Id;
                         i.TeacherCourseInfo = null;
                     }
-                    else {
+                    else
+                    {
                         i.TeacherCourseInfo.Id = 0;
                     }
                 }
+                else { 
+                    i.TeacherCourseInfo = null;
+                }
             });
-            
-            this._context.CourseSchedule.AddRange(information);
+           
+            _context.CourseSchedule.AddRange(information);
+
+            var teacherCourseInfo = information.FirstOrDefault().TeacherCourseInfo;
+            var classId = teacherCourseInfo.ClassId;
+            if (classId > 0) {                
+                var students = GetStudentsByClassId((int)classId).ToList();
+                students.ForEach(s => {
+                    var cs = new CourseSelection();
+                    cs.StudentId = s.Id;
+                    cs.CourseResponsibleByTeacherId = teacherCourseInfo.Id;
+                    if (teacherCourseInfo.Id < 1) {
+                        cs.TeacherCourseInfo = teacherCourseInfo;
+                    }                    
+                    _context.CourseSelection.AddRange(cs);
+                });
+            }
+
             return SaveChanges();
         }
 
         public bool RemoveCourseSchedule(IEnumerable<int> idList)
         {
-            var information = this._context.CourseSchedule.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.CourseSchedule.RemoveRange(information);
+            var information = _context.CourseSchedule.Where(x => idList.Contains(x.Id)).ToList();
+            _context.CourseSchedule.RemoveRange(information);
             return SaveChanges();
         }
 
         public bool UpdateCourseSchedule(IEnumerable<CourseSchedule> information)
         {
-            this._context.CourseSchedule.UpdateRange(information);
+            _context.CourseSchedule.UpdateRange(information);
             return SaveChanges();
         }
 
         public IEnumerable<CourseSchedule> GetAllCourseSchedule()
         {
-            return this._context.CourseSchedule
+            return _context.CourseSchedule
                 .Include(i => i.TeacherCourseInfo)
                 .ThenInclude(i=>i.Teacher)
                 .Include(i => i.TeacherCourseInfo)
@@ -525,7 +545,7 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<CourseSchedule> GetCourseScheduleByTeacherId(int id)
         {
-            return this._context.CourseSchedule
+            return _context.CourseSchedule
                 .Include(i => i.TeacherCourseInfo)
                 .ThenInclude(i => i.Teacher)
                 .Include(i => i.TeacherCourseInfo)
@@ -538,7 +558,7 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<CourseSchedule> GetCourseScheduleByClassId(int id)
         {
-            return this._context.CourseSchedule
+            return _context.CourseSchedule
                 .Include(i => i.TeacherCourseInfo)
                 .ThenInclude(i => i.Teacher)
                 .Include(i => i.TeacherCourseInfo)
@@ -551,7 +571,7 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<CourseSchedule> GetCourseScheduleByIds(IEnumerable<int> idList)
         {
-            return this._context.CourseSchedule
+            return _context.CourseSchedule
                 .Include(i => i.TeacherCourseInfo)
                 .ThenInclude(i => i.Teacher)
                 .Include(i => i.TeacherCourseInfo)
@@ -566,26 +586,26 @@ namespace SchoolOA.Repositories
         #region CourseSelection
         public bool AddCourseSelection(IEnumerable<CourseSelection> information)
         {
-            this._context.CourseSelection.AddRange(information);
+            _context.CourseSelection.AddRange(information);
             return SaveChanges();
         }
 
         public bool RemoveCourseSelection(IEnumerable<int> idList)
         {
-            var information = this._context.CourseSelection.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.CourseSelection.RemoveRange(information);
+            var information = _context.CourseSelection.Where(x => idList.Contains(x.Id)).ToList();
+            _context.CourseSelection.RemoveRange(information);
             return SaveChanges();
         }
 
         public bool UpdateCourseSelection(IEnumerable<CourseSelection> information)
         {
-            this._context.CourseSelection.UpdateRange(information);
+            _context.CourseSelection.UpdateRange(information);
             return SaveChanges();
         }
 
         public IEnumerable<CourseSelection> GetAllCourseSelection()
         {
-            return this._context.CourseSelection
+            return _context.CourseSelection
                 .Include(i=>i.Student)
                 .Include(i => i.TeacherCourseInfo)
                 .ThenInclude(i => i.Teacher)
@@ -599,7 +619,7 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<CourseSelection> GetCourseSelectionByStudentId(int id)
         {
-            return this._context.CourseSelection
+            return _context.CourseSelection
                 .Where (i=>i.StudentId==id)
                 .Include(i => i.Student)
                 .Include(i => i.TeacherCourseInfo)
@@ -621,7 +641,7 @@ namespace SchoolOA.Repositories
         #region Examination
         public bool AddExaminations(IEnumerable<Examination> exams)
         {
-            this._context.Examinations.AddRange(exams);
+            _context.Examinations.AddRange(exams);
             return SaveChanges();
         }
 
@@ -636,7 +656,7 @@ namespace SchoolOA.Repositories
                         var e = _mapper.Map<Examination>(exam);
                         e.StudentId = student.Id;
                         e.Student = student;
-                        this._context.Examinations.Add(e);
+                        _context.Examinations.Add(e);
                     }
                     else
                     {
@@ -654,20 +674,20 @@ namespace SchoolOA.Repositories
 
         public bool RemoveExaminations(IEnumerable<int> idList)
         {
-            var exams = this._context.Examinations.Where(x => idList.Contains(x.Id)).ToList();
-            this._context.Examinations.RemoveRange(exams);
+            var exams = _context.Examinations.Where(x => idList.Contains(x.Id)).ToList();
+            _context.Examinations.RemoveRange(exams);
             return SaveChanges();
         }
 
         public bool UpdateExaminations(IEnumerable<Examination> exams)
         {
-            this._context.Examinations.UpdateRange(exams);
+            _context.Examinations.UpdateRange(exams);
             return SaveChanges();
         }
 
         public IEnumerable<Examination> GetAllExaminations()
         {
-            return this._context.Examinations
+            return _context.Examinations
                 .Include(i => i.Student)
                 .ThenInclude(s=>s.Class)
                 .ThenInclude(c=>c.Major)
@@ -681,7 +701,7 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<Examination> GetExaminationsByStudentsId(IEnumerable<int> idList)
         {
-            return this._context.Examinations
+            return _context.Examinations
                 .Where(i=> idList.Contains(i.StudentId))
                 .Include(i => i.Student)
                 .Include(i => i.Major)
@@ -691,7 +711,7 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<Examination> GetExaminationsByIds(IEnumerable<int> idList)
         {
-            return this._context.Examinations
+            return _context.Examinations
                 .Where(i => idList.Contains(i.Id))
                 .Include(i => i.Student)
                 .Include(i => i.Major)
@@ -702,17 +722,17 @@ namespace SchoolOA.Repositories
 
         public TeacherAccount GetTeacherAccountByTeacherNameAndPassWord(string loginName, string password)
         {
-            var result = this._context.TeacherAccounts.Where(x => x.AccountName == loginName && x.Password == password).FirstOrDefault();
+            var result = _context.TeacherAccounts.Where(x => x.AccountName == loginName && x.Password == password).FirstOrDefault();
             if (result != null)
             {
-                result.Teacher = this._context.Teachers.Where(x => x.TeacherNumber == loginName).FirstOrDefault();
+                result.Teacher = _context.Teachers.Where(x => x.TeacherNumber == loginName).FirstOrDefault();
             }
             return result;
         }
 
         private bool SaveChanges()
         {
-            return this._context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
     }
 }
