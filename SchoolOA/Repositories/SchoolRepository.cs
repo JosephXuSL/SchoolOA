@@ -136,7 +136,7 @@ namespace SchoolOA.Repositories
 
         public IEnumerable<Teacher> GetAllTeachers()
         {
-            return _context.Teachers.ToList();
+            return _context.Teachers.Where(t=> t.TeacherNumber != "admin").ToList();
         }
 
         public IEnumerable<Teacher> GetAllNoAccountTeachers()
