@@ -722,10 +722,10 @@ namespace SchoolOA.Repositories
 
         public TeacherAccount GetTeacherAccountByTeacherNameAndPassWord(string loginName, string password)
         {
-            var result = _context.TeacherAccounts.Where(x => x.AccountName == loginName && x.Password == password).FirstOrDefault();
+            var result = _context.TeacherAccounts.Where(x => x.AccountName == loginName && x.Password == password && x.AccountStatus != "停用" )?.FirstOrDefault();
             if (result != null)
             {
-                result.Teacher = _context.Teachers.Where(x => x.TeacherNumber == loginName).FirstOrDefault();
+                result.Teacher = _context.Teachers.Where(x => x.TeacherNumber == loginName)?.FirstOrDefault();
             }
             return result;
         }

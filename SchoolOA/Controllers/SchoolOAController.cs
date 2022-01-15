@@ -207,8 +207,23 @@ namespace SchoolOA.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (_rep.UpdateTeachers(_mapper.Map<IEnumerable<Teacher>>(teachers)))
+                    var teachersMap = _mapper.Map<IEnumerable<Teacher>>(teachers);
+                    var teacherAccounts = new List<TeacherAccount>();
+                    if (_rep.UpdateTeachers(teachersMap))
                     {
+                        teachersMap.ToList().ForEach(t =>
+                        {
+                            if (t.TeacherStatus == "离职")
+                            {
+                                var teacheraccount = _rep.GetTeacherAccountByTeacherNumber(t.TeacherNumber);
+                                teacheraccount.AccountStatus = "停用";
+                                teacherAccounts.Add(teacheraccount);
+                            }
+                        });
+                        if (teacherAccounts != null && teacherAccounts.Count > 0)
+                        {
+                            _rep.UpdateTeacherAccounts(teacherAccounts);
+                        }
                         return Ok("Saved success");
                     }
                 }
