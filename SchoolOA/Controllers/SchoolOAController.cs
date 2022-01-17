@@ -216,8 +216,11 @@ namespace SchoolOA.Controllers
                             if (t.TeacherStatus == "离职")
                             {
                                 var teacheraccount = _rep.GetTeacherAccountByTeacherNumber(t.TeacherNumber);
-                                teacheraccount.AccountStatus = "停用";
-                                teacherAccounts.Add(teacheraccount);
+                                if (teacheraccount!=null)
+                                {
+                                    teacheraccount.AccountStatus = "停用";
+                                    teacherAccounts.Add(teacheraccount);
+                                }                               
                             }
                         });
                         if (teacherAccounts != null && teacherAccounts.Count > 0)
