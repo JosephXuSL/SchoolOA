@@ -572,14 +572,18 @@ namespace SchoolOA.Repositories
         public IEnumerable<CourseSchedule> GetCourseScheduleByIds(IEnumerable<int> idList)
         {
             return _context.CourseSchedule
-                .Include(i => i.TeacherCourseInfo)
-                .ThenInclude(i => i.Teacher)
-                .Include(i => i.TeacherCourseInfo)
-                .ThenInclude(i => i.Course)
-                .Include(i => i.TeacherCourseInfo)
-                .ThenInclude(i => i.Class)
-                .Where(c => idList.Contains(c.Id))
-                .ToList();
+            .Where(c => idList.Contains(c.Id))
+            .Include(i => i.TeacherCourseInfo)
+            .ThenInclude(i => i.Teacher)
+            .Include(i => i.TeacherCourseInfo)
+            .ThenInclude(i => i.Course)
+            .Include(i => i.TeacherCourseInfo)
+            .ThenInclude(i => i.Class)
+            .ThenInclude(i => i.Major)
+            .Include(i => i.TeacherCourseInfo)
+            .ThenInclude(i => i.Class)
+            .ThenInclude(i => i.Mentor)
+            .ToList();
         }
         #endregion CourseSchedule
 
@@ -722,7 +726,7 @@ namespace SchoolOA.Repositories
 
         public TeacherAccount GetTeacherAccountByTeacherNameAndPassWord(string loginName, string password)
         {
-            var result = _context.TeacherAccounts.Where(x => x.AccountName == loginName && x.Password == password && x.AccountStatus != "停用" )?.FirstOrDefault();
+            var result = _context.TeacherAccounts.Where(x => x.AccountName == loginName && x.Password == password )?.FirstOrDefault();
             if (result != null)
             {
                 result.Teacher = _context.Teachers.Where(x => x.TeacherNumber == loginName)?.FirstOrDefault();
