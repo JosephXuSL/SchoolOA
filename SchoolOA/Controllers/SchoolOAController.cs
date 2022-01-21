@@ -1,13 +1,19 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using SchoolOA.Entities;
 using SchoolOA.Repositories;
 using SchoolOA.Services;
 using SchoolOA.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SchoolOA.Controllers
@@ -34,6 +40,7 @@ namespace SchoolOA.Controllers
         #region Course
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddCourses([FromBody] IEnumerable<CourseRequestBody> request)
         {
             try 
@@ -60,6 +67,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveCourses([FromBody] IEnumerable<int> idList)
         {
             try
@@ -77,6 +85,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateCourses([FromBody] IEnumerable<CourseRequestBody> courses)
         {
             try
@@ -103,6 +112,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Course>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllCourses()
         {
             try
@@ -156,6 +166,7 @@ namespace SchoolOA.Controllers
         #region Teacher
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddTeachers([FromBody] IEnumerable<TeacherRequestBody> request)
         {
             try
@@ -183,6 +194,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveTeachers([FromBody] IEnumerable<int> idList)
         {
             try
@@ -201,6 +213,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateTeachers([FromBody] IEnumerable<TeacherRequestBody> teachers)
         {
             try
@@ -245,6 +258,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Teacher>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllTeachers()
         {
             try
@@ -260,6 +274,7 @@ namespace SchoolOA.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(IEnumerable<Teacher>), 200)]
         public IActionResult GetAllNoAccountTeachers()
         {
@@ -335,6 +350,7 @@ namespace SchoolOA.Controllers
         #region Major
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddMajors([FromBody] IEnumerable<MajorRequestBody> request)
         {
             try
@@ -362,6 +378,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveMajors([FromBody] IEnumerable<int> idList)
         {
             try
@@ -380,6 +397,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateMajors([FromBody] IEnumerable<MajorRequestBody> majors)
         {
             try
@@ -406,6 +424,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Major>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllMajors()
         {
             try
@@ -493,6 +512,7 @@ namespace SchoolOA.Controllers
         #region TeacherReceivedAward
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddTeacherReceivedAward([FromBody] IEnumerable<TeacherReceivedAwardRequestBody> request)
         {
             try
@@ -519,6 +539,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveTeacherReceivedAward([FromBody] IEnumerable<int> idList)
         {
             try
@@ -537,6 +558,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateTeacherReceivedAward([FromBody] IEnumerable<TeacherReceivedAwardRequestBody> request)
         {
             try
@@ -598,6 +620,7 @@ namespace SchoolOA.Controllers
         #region TeacherAccount
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddTeacherAccounts([FromBody] IEnumerable<TeacherAccountRequestBody> request)
         {
             try
@@ -624,6 +647,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveTeacherAccounts([FromBody] IEnumerable<int> idList)
         {
             try
@@ -642,6 +666,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateTeacherAccounts([FromBody] IEnumerable<TeacherAccountRequestBody> request)
         {
             try
@@ -667,6 +692,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<TeacherAccount>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllTeacherAccounts()
         {
             try
@@ -684,6 +710,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet("{id:}")]
         [ProducesResponseType(typeof(TeacherAccount), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetTeacherAccountByTeacherId(int id)
         {
             try
@@ -701,6 +728,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet("{name:}")]
         [ProducesResponseType(typeof(TeacherAccount), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetTeacherAccountByTeacherNm(string name)
         {
             try
@@ -717,6 +745,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet("{details}")]
         [ProducesResponseType(typeof(bool), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateTeacherAccountPassWord(string teacherNm, string newPassWord)
         {
             try
@@ -734,6 +763,7 @@ namespace SchoolOA.Controllers
         }
         [HttpGet("{details}")]
         [ProducesResponseType(typeof(bool), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateTeacherAccountPassWordByTNum(string teacherNum, string newPassWord)
         {
             try
@@ -754,6 +784,7 @@ namespace SchoolOA.Controllers
         #region Class
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddClasses([FromBody] IEnumerable<ClassRequestBody> request)
         {
             try
@@ -780,6 +811,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveClasses([FromBody] IEnumerable<int> idList)
         {
             try
@@ -798,6 +830,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateClasses([FromBody] IEnumerable<ClassRequestBody> classes)
         {
             try
@@ -823,6 +856,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Class>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllClasses()
         {
             try
@@ -924,6 +958,7 @@ namespace SchoolOA.Controllers
         #region Student
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddStudents([FromBody] IEnumerable<StudentRequestBody> request)
         {
             try
@@ -959,6 +994,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveStudents([FromBody] IEnumerable<int> idList)
         {
             try
@@ -977,6 +1013,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateStudents([FromBody] IEnumerable<StudentRequestBody> students)
         {
             try
@@ -1009,6 +1046,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Student>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllStudents()
         {
             try
@@ -1150,6 +1188,7 @@ namespace SchoolOA.Controllers
         #region Enroll
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddEnroll([FromBody] IEnumerable<EnrollRequestBody> request)
         {
             try
@@ -1184,6 +1223,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveEnroll([FromBody] IEnumerable<int> idList)
         {
             try
@@ -1202,6 +1242,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateEnroll([FromBody] IEnumerable<EnrollRequestBody> students)
         {
             try
@@ -1235,6 +1276,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Enroll>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllEnroll()
         {
             try
@@ -1303,6 +1345,7 @@ namespace SchoolOA.Controllers
         #region CourseResponsibleByTeacher
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddCourseResponsibleByTeacher([FromBody] IEnumerable<CourseResponsibleByTeacherRequestBody> request)
         {
             try
@@ -1330,6 +1373,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveCourseResponsibleByTeacher([FromBody] IEnumerable<int> idList)
         {
             try
@@ -1348,6 +1392,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateCourseResponsibleByTeacher([FromBody] IEnumerable<CourseResponsibleByTeacherRequestBody> information)
         {
             try
@@ -1374,6 +1419,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CourseResponsibleByTeacher>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllCourseResponsibleByTeacher()
         {
             try
@@ -1409,6 +1455,7 @@ namespace SchoolOA.Controllers
         #region CourseSchedule
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddCourseSchedule([FromBody] IEnumerable<CourseScheduleRequestBody> request)
         {
             try
@@ -1436,6 +1483,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveCourseSchedule([FromBody] IEnumerable<int> idList)
         {
             try
@@ -1454,6 +1502,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateCourseSchedule([FromBody] IEnumerable<CourseScheduleRequestBody> information)
         {
             try
@@ -1479,6 +1528,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CourseSchedule>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllCourseSchedule()
         {
             try
@@ -1545,6 +1595,7 @@ namespace SchoolOA.Controllers
         #region CourseSelection
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddCourseSelection([FromBody] IEnumerable<CourseSelectionRequestBody> request)
         {
             try
@@ -1572,6 +1623,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveCourseSelection([FromBody] IEnumerable<int> idList)
         {
             try
@@ -1590,6 +1642,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateCourseSelection([FromBody] IEnumerable<CourseSelectionRequestBody> information)
         {
             try
@@ -1615,6 +1668,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CourseSelection>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllCourseSelection()
         {
             try
@@ -1665,6 +1719,7 @@ namespace SchoolOA.Controllers
         #region Examination
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddExaminations([FromBody] IEnumerable<ExaminationRequestBody> request)
         {
             try
@@ -1691,6 +1746,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(IEnumerable<string>),200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult ImportExaminations([FromBody] IEnumerable<ExaminationImportBody> request)
         {
             try
@@ -1715,6 +1771,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult RemoveExaminations([FromBody] IEnumerable<int> idList)
         {
             try
@@ -1733,6 +1790,7 @@ namespace SchoolOA.Controllers
 
         [HttpPost]
         [ProducesResponseType(200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult UpdateExaminations([FromBody] IEnumerable<ExaminationRequestBody> exams)
         {
             try
@@ -1758,6 +1816,7 @@ namespace SchoolOA.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Examination>), 200)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAllExaminations()
         {
             try
@@ -1804,15 +1863,37 @@ namespace SchoolOA.Controllers
             }
         }
         #endregion Examination
-
+        
         [HttpGet("{details}")]
-        [ProducesResponseType(typeof(TeacherAccount), 200)]
+        [ProducesResponseType(typeof(TeacherAccountOutput), 200)]
         public IActionResult GetTeacherAccountByTeacherNameAndPassword(string teacherName, string password)
         {
             try
             {
                 var result = _rep.GetTeacherAccountByTeacherNameAndPassWord(teacherName, password);
-                return Ok(result);
+                if (result != null)
+                {
+                    var claims = new[]
+                        {
+                          new Claim(JwtRegisteredClaimNames.Sub, result.AccountName),
+                          new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                          new Claim(JwtRegisteredClaimNames.UniqueName, result.Teacher.Name)
+                        };
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("AccessTokenSecret"));
+
+                    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                    var token = new JwtSecurityToken("schoolOA_BC", "schoolOA_FC", claims, expires: DateTime.UtcNow.AddMinutes(60), signingCredentials: creds);
+                    var results = new TeacherAccountOutput
+                    {
+                        LoginResult = result,
+                        Token = new JwtSecurityTokenHandler().WriteToken(token),
+                        Expiration = token.ValidTo
+                    };
+                    return Ok(results);
+                }
+
+                return Ok(null);
             }
             catch (Exception ex)
             {

@@ -20,4 +20,11 @@ namespace SchoolOA.Entities
         [Required]
         public bool IsAdminAccount { get; set; }
     }
+
+    public class TeacherAccountOutput
+    {
+        public TeacherAccount LoginResult { get; set; }
+        public string Token { get; set; }
+        public DateTime Expiration { get; set; }
+    }
 }

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SchoolOA.Entities
 {
-    public class TeacherAccount
+    public class TeacherAccount: IdentityUser
     {
         public int Id { get; set; }
         public int TeacherId { get; set; }

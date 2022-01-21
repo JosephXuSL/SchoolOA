@@ -1,21 +1,25 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using SchoolOA.Context;
+using SchoolOA.Entities;
 using SchoolOA.Repositories;
 using SchoolOA.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SchoolOA
@@ -34,6 +38,16 @@ namespace SchoolOA
         {          
             AddSchoolContext(services);
             RegisterServices(services);
+            services.AddIdentity<TeacherAccount, IdentityRole>().AddEntityFrameworkStores<SchoolContext>();
+            services.AddAuthentication().AddCookie().AddJwtBearer(cfg =>
+            {
+                cfg.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = "schoolOA_BC",
+                    ValidAudience = "schoolOA_FC",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("AccessTokenSecret"))
+                };
+            });
             services.AddCors(c =>
             {
                 c.AddPolicy("AllRequests", policy =>
@@ -68,6 +82,9 @@ namespace SchoolOA
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseCors("AllRequests");
             app.UseAuthorization();
