@@ -1864,13 +1864,13 @@ namespace SchoolOA.Controllers
         }
         #endregion Examination
         
-        [HttpGet("{details}")]
+        [HttpPost]
         [ProducesResponseType(typeof(TeacherAccountOutput), 200)]
-        public IActionResult GetTeacherAccountByTeacherNameAndPassword(string teacherName, string password)
+        public IActionResult GetTeacherAccountByTeacherNameAndPassword([FromBody] LoginModel loginParam)
         {
             try
             {
-                var result = _rep.GetTeacherAccountByTeacherNameAndPassWord(teacherName, password);
+                var result = _rep.GetTeacherAccountByTeacherNameAndPassWord(loginParam.AccountName, loginParam.Password);
                 if (result != null)
                 {
                     var claims = new[]

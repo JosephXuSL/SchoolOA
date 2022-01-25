@@ -27,4 +27,12 @@ namespace SchoolOA.Entities
         public string Token { get; set; }
         public DateTime Expiration { get; set; }
     }
+
+    public class LoginModel
+    {
+        [Required]
+        public string AccountName { get; set; }
+        [Required]
+        public string Password { get; set; }
+    }
 }
